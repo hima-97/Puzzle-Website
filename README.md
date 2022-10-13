@@ -11,21 +11,26 @@ On techni
 
 - Description <br>
 In order to deliver the contents of this project, we will list the main functions of this web application. Then some technologies that we are going to use for implementing the application.
-Application functions:
-We focus on two types of users in this puzzle website. They are administrators and players. These application features will be listed below with specific roles and responsibilities for users:
-Login/Register: only administrators need to login in order to update the puzzles. The extension features such as a store high score system, or recording the history can be the reason for players to login or register.
-Play the puzzle: everyone can play a selected puzzle with some illustrations at the selection page. They can play by drag and drop the pieces from the panel, which are loaded from the server when they select the puzzle and wait. There are also shape validation for easier user interaction.
-Update the puzzle: only administrators can update the puzzle, for example some common setting like name, time, and so forth.
-Delete the puzzle: only administrators can delete the puzzle.
-We also consider some advanced features such as:
-Multiplayer: two or more can play the same puzzle at the same time.
-History: store the puzzles that logged in players are completed with record time.
-Leaderboard: this will be calculated by the history for competition.
-Technologies: For the average strength of the teammates, we decided to choose the PERN technology (pcpiyush1106) for building a website. PERN is abbreviation for the database PostgreSQL, the server side framework ExpressJs, the client Single Page Application React framework, and the Nodejs runtime environment.
-Database: Postgresql. We choose PostgreSQL because it is a free, open source, relational database with a friendly UI management system, which is pgAdmin.
-Server side: ExpressJs. This framework provides a minimal and flexible Node.js web application framework. So that we can easily catch up.
-Client side: ReactJs. ReactJs is a famous framework to build single page applications and we can use similar concepts on mobile using React native for the future.
-Server runtime environment: Nodejs. Besides the reason as the most famous runtime environment for compiling and running expressJs framework, NodeJs provides lots of modules with package manager.
+
+    - Application functions:
+        We focus on two types of users in this puzzle website. They are administrators and players. These application features will be listed below with specific roles and responsibilities for users:
+        Login/Register: only administrators need to login in order to update the puzzles. The extension features such as a store high score system, or recording the history can be the reason for players to login or register.
+        Play the puzzle: everyone can play a selected puzzle with some illustrations at the selection page. They can play by drag and drop the pieces from the panel, which are loaded from the server when they select the puzzle and wait. There are also shape validation for easier user interaction.
+        Update the puzzle: only administrators can update the puzzle, for example some common setting like name, time, and so forth.
+        Delete the puzzle: only administrators can delete the puzzle.
+        We also consider some advanced features such as:
+        Multiplayer: two or more can play the same puzzle at the same time.
+        History: store the puzzles that logged in players are completed with record time.
+        Leaderboard: this will be calculated by the history for competition.
+
+    - Technologies: 
+    For the average strength of the teammates, we decided to choose the PERN technology (pcpiyush1106) for building a website. PERN is abbreviation for the database PostgreSQL, the server side framework ExpressJs, the client Single Page Application React framework, and the Nodejs runtime environment.
+    
+        - Database: Postgresql. We choose PostgreSQL because it is a free, open source, relational database with a friendly UI management system, which is pgAdmin.
+    
+        - Server side: ExpressJs. This framework provides a minimal and flexible Node.js web application framework. So that we can easily catch up.
+    
+        - Client side: ReactJs. ReactJs is a famous framework to build single page applications and we can use similar concepts on mobile using React native for the future. Server runtime environment: Nodejs. Besides the reason as the most famous runtime environment for compiling and running expressJs framework, NodeJs provides lots of modules with package manager.
 
 - References <br>
 jigsaw explorer. Jigsaw Explorer – Online Jigsaw Puzzles, https://www.jigsawexplorer.com/. Accessed 10 October 2022.
