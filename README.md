@@ -12,7 +12,7 @@ On techni
 - Description <br>
 In order to deliver the contents of this project, we will list the main functions of this web application. Then some technologies that we are going to use for implementing the application.
 
-    - Application functions:
+    - Application functions: <br>
         We focus on two types of users in this puzzle website. They are administrators and players. These application features will be listed below with specific roles and responsibilities for users:
         Login/Register: only administrators need to login in order to update the puzzles. The extension features such as a store high score system, or recording the history can be the reason for players to login or register.
         Play the puzzle: everyone can play a selected puzzle with some illustrations at the selection page. They can play by drag and drop the pieces from the panel, which are loaded from the server when they select the puzzle and wait. There are also shape validation for easier user interaction.
@@ -23,7 +23,7 @@ In order to deliver the contents of this project, we will list the main function
         History: store the puzzles that logged in players are completed with record time.
         Leaderboard: this will be calculated by the history for competition.
 
-    - Technologies: 
+    - Technologies: <br>
     For the average strength of the teammates, we decided to choose the PERN technology (pcpiyush1106) for building a website. PERN is abbreviation for the database PostgreSQL, the server side framework ExpressJs, the client Single Page Application React framework, and the Nodejs runtime environment.
     
         - Database: Postgresql. We choose PostgreSQL because it is a free, open source, relational database with a friendly UI management system, which is pgAdmin.
