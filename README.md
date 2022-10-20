@@ -54,4 +54,4 @@ To check out our most recent deployment of the app, visit the link here: <br>
 `Insert Heroku deployment link here`
 
 To install and deploy the app, follow the instructions here: <br>
-`Insert DEPLOY.md file link here`
+https://github.com/hima-97/Puzzle-Website/blob/master/docs/DEPLOY.md
