@@ -21,30 +21,30 @@ https://github.com/hima-97/Puzzle-Website/blob/master/docs/MERN.md
 
 # Functionality
 
-- Login/Register
+- Login/Register:
 
 The extension features like recording high score or history can be reasons for players to login or register. <br>
 We focus on two types of users in this puzzle website, administrators and players. <br>
 Only administrators need to login in order to update the puzzles.
 
-- Play Puzzle
+- Play Puzzle:
 
 Anyone can play a selected puzzle with some illustrations at the selection page. <br> 
 Users can play by drag and drop the pieces from the panel, which are loaded from the server. <br>
 
-- Update Puzzle
+- Update Puzzle:
 
 Only administrators can update a puzzle. For example, some common settings are name, time, etc.
 
-- Delete Puzzle
+- Delete Puzzle:
 
 Only administrators can delete a puzzle.
 
-- Multiplayer
+- Multiplayer:
 
 Two or more players can play the same puzzle at the same time.
 
-- Leaderboard
+- Leaderboard:
 
 Leaderboard position is calculated from the history.
 
