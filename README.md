@@ -1,3 +1,15 @@
+# Getting Started
+## Prerequisites
+```
+    Run 'npm run swagger-autogen' to generate swagger for debugging
+    'npm start' to start a server
+```
+## API
+```
+    Open browser at 'http://localhost:4002/health' for checking the status of the server
+    Open browser at 'http://localhost:4002/web/api-docs/' to get access to the API documentation
+```
+
 # Project Description
 
 This full-stack web application consists of a common puzzle generator, creator, and solver. <br>

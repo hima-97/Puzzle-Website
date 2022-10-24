@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
+    "start": "nodemon -r esm src/index.js",
+    "swagger-autogen": "node src/gen-swagger.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,7 +14,15 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
+    "esm": "^3.2.25",
     "express": "^4.18.2",
-    "mongodb": "^4.11.0"
+    "express-session": "^1.17.3",
+    "mongodb": "^4.11.0",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "swagger-ui-express": "^4.5.0"
+  },
+  "devDependencies": {
+    "swagger-autogen": "^2.22.0"
   }
 }
