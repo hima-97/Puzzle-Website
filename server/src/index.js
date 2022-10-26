@@ -19,9 +19,9 @@ app.use(cors({
 }));
 const router = express.Router();
 
-const UserModel = require('./models/Users');
 const mongoose = require("mongoose");
-mongoose.connect("mongodb+srv://admin:SecAdPassMinWordUre@puzzle-website.yfnhdxv.mongodb.net/test?retryWrites=true&w=majority");
+const UserModel = require(process.env.USER_LOC);
+mongoose.connect(process.env.MONGO_URI);
 
 router.get('/health', (req, res) => res.send('OK!'));
 require('./config/swagger').default(router, '/web');
