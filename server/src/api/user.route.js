@@ -4,4 +4,5 @@ var userRoute = (router, expressApp, userController) => {
   return router;
 }
 
+//export the above described userRoute which gives the url additions to type and calls the associated functions
 export { userRoute };

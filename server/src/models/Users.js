@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
+   //outline of what a user looks like in the database
    name: {
     type: String,
     required: true,

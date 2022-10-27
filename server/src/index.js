@@ -39,34 +39,10 @@ app.use('/company', authRoute);
 const configPassport  = require('./passport/config');
 configPassport(app, express);
 
-////
+//usrController and usrRoute are for connecting in between the database and what is on the server
+//it is exactly like the authentication described above
 var usrController = new userController();
 var usrRoute = userRoute(express.Router(), app, usrController);
-app.use('/getUsers', usrRoute);
-
-
-
-/*
-
-//app.get is used for getting the desired ending for webpage. 
-//i.e. http://localhost/getUsers does the function described below
-app.get("/getUsers", (req, res) => {
-    UserModel.find({}, (err, result) => {
-        if (err) {
-            res.json(err);
-        } else {
-            res.json(result);
-        }
-    });
-});
-
-app.post("/createUser", async (req,res) => {
-    const user = req.body;
-    const newUser = new UserModel(user);
-    await newUser.save();
-
-    res.json(user);
-});
-*/
+app.use('/', usrRoute);
 
 app.listen(port, () => console.log(`Server is listening on port ${port}`));
