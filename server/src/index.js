@@ -1,4 +1,6 @@
+// This gets value in .env file
 require('dotenv').config();
+
 
 import {
     authenticationController,
@@ -33,7 +35,7 @@ app.use('/', router);
 
 var authController = new authenticationController();
 var authRoute = authenticationRoute(express.Router(), app, authController);
-app.use('/company', authRoute);     
+app.use('/auth', authRoute);
 
 const configPassport  = require('./passport/config');
 configPassport(app, express);
