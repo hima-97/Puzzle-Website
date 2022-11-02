@@ -29,7 +29,6 @@ mongoose.connect(process.env.MONGO_URI);
 const UserModel = require(process.env.USER_LOC);
 
 router.get('/health', (req, res) => res.send('OK!'));
-require('./config/swagger').default(router, '/web');
 app.use('/', router);
 
 var authController = new authenticationController();
