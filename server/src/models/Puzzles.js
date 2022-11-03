@@ -7,7 +7,22 @@ const PuzzleSchema = new mongoose.Schema({
         required: true,
     },
     img: {
+        //byte[]
         type: String,
+        required: true,
+    },
+    duration: {
+        //in ms
+        type: Number,
+        required: false,
+    },
+    genre: {
+        type: String,
+        required: true,
+    },
+    difficulty: {
+        //will be an integer: 0,1,2 for easy, medium, hard
+        type: Number,
         required: true,
     },
 });

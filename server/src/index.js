@@ -21,7 +21,8 @@ app.use(cors({
 }));
 const router = express.Router();
 
-//we need a reference to mongoose so we save it. After that connect to the database collection
+//we need a reference to mongoose so we save it. After that connect
+//to the database collection
 const mongoose = require("mongoose");
 mongoose.connect(process.env.MONGO_URI);
 
@@ -39,10 +40,14 @@ app.use('/company', authRoute);
 const configPassport  = require('./passport/config');
 configPassport(app, express);
 
-//usrController and usrRoute are for connecting in between the database and what is on the server
-//it is exactly like the authentication described above
+//usrController and usrRoute are for connecting in between the database and
+//what is on the server it is exactly like the authentication described above
 var usrController = new userController();
 var usrRoute = userRoute(express.Router(), app, usrController);
 app.use('/', usrRoute);
 
 app.listen(port, () => console.log(`Server is listening on port ${port}`));
+
+//may want to get rid of this requirement line if  we dont need to
+//use anything from it.
+var md5 = require("blueimp-md5")
