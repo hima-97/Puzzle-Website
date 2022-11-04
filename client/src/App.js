@@ -19,6 +19,7 @@ import './App.css'
 // Importing components to be used in this file:
 import LoginComponent from "./components/loginComponent";
 import SignupComponent from "./components/signupComponent";
+//import SignupComponent from "./components/signupComponent";
 
 function App() {
   return (
@@ -42,6 +43,11 @@ function App() {
                     Sign up
                   </Link>
                 </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to={'/dashboard'}>
+                    Dashboard
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
@@ -53,6 +59,7 @@ function App() {
               <Route exact path="/" element={<LoginComponent />} />
               <Route path="/sign-in" element={<LoginComponent />} />
               <Route path="/sign-up" element={<SignupComponent />} />
+              <Route path="/dashboard" element={<recommendedPuzzlesComponent />} />
             </Routes>
           </div>
         </div>
