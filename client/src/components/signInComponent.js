@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export default class LoginComponent extends Component {
+export default class SignInComponent extends Component {
   render() {
     return (
       // Using form for sign-in:
