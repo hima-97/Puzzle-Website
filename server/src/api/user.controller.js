@@ -1,24 +1,25 @@
 const passport = require("passport");
 const UserModel = require("../models/Users");
-var md5 = require("blueimp-md5");
 
 const authenticationService = require("../service/authenticationService");
 
+// The "userController" class defines the methods a user can perform: 
 export default class userController {
   //class that will have the different methods that are in regards to users in the db
   constructor() {}
 
-  //will display all users
-  async getAllUsers(req, res, next) {
+  // This will display all users in the model:
+  // This returns a JSON file with all users or, if there is no user, a JSON file with an error
+  async getUsers(req, res, next) {
     UserModel.find({}, (err, result) => {
         if (err) {
             res.json(err);
         } else {
             res.json(result);
         }
-        //returns a json file of the error if it exists, or all the users if there is not an error.
     });
   }
+
 
   //will display the items within the database that match the user's query
   //keep in mind that for testing it will be the name in the db.
@@ -78,5 +79,7 @@ export default class userController {
 
     //I (Isaiah) will update this code when the frontend exists and grabs the fields from the user.
     //as of now it will be grabbed in a single json file
+    // This returns JSON file for the specific user:
+    res.json(user);
   }
 }
