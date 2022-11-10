@@ -43,7 +43,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 // Defining and compiling model under name "Users":
-const UserModel = mongoose.model("Users", UserSchema);
+const UserModel = mongoose.model("users", UserSchema);
 
 // Exporting model so it can be used in another file:
 module.exports = UserModel;

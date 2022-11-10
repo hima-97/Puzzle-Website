@@ -33,7 +33,7 @@ const PuzzleSchema = new mongoose.Schema({
 });
 
 // Defining and compiling model under name "Puzzles":
-const PuzzleModel = mongoose.model("Puzzles", PuzzleSchema);
+const PuzzleModel = mongoose.model("puzzles", PuzzleSchema);
 
 // Exporting model so it can be used in another file:
 module.exports = PuzzleModel;

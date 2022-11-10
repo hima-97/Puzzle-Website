@@ -1,8 +1,6 @@
 const passport = require("passport");
 const PuzzleModel = require("../models/Puzzles");
 
-const authenticationService = require("../service/authenticationService");
-
 export default class puzzleController {
     constructor () {}
 
