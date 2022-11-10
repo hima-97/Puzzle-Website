@@ -3,7 +3,8 @@
 
 
 var userRoute = (router, expressApp, userController) => {
-  router.get('/getUsers', userController.getUsers);
+  //router.get('/getAllUsers', userController.getAllUsers); //add it to the admin route
+  router.get('/findUser', userController.findUsers);
   router.post('/createUser', userController.createUser);
   return router;
 }

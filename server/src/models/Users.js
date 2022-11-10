@@ -8,7 +8,15 @@ const mongoose = require('mongoose');
 // Defining schema:
 const UserSchema = new mongoose.Schema({
    //outline of what a user looks like in the database
-   name: {
+   firstname: {
+    type: String,
+    required: true,
+   },
+   lastname: {
+      type: String,
+      required: true,
+   },
+   username: {
     type: String,
     required: true,
    },
@@ -16,10 +24,22 @@ const UserSchema = new mongoose.Schema({
       type: Number,
       required: true,
    },
-   username: {
-    type: String,
-    required: true,
+   hashPassword: {
+      type: String,
+      required: true,
    },
+   userPuzzles: [{
+      type: String,
+      required: true,
+   }],
+   playedPuzzles: [{
+      type: String,
+      required: true,
+   }],
+   favouritePuzzles: [{
+      type: String,
+      required: true,
+   }],
 });
 
 // Defining and compiling model under name "Users":

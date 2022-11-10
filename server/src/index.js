@@ -8,7 +8,9 @@ import {
     authenticationController,
     authenticationRoute,
     userController,
-    userRoute
+    userRoute,
+    puzzleController,
+    puzzleRoute
 } from "./api";
 
 const cors = require('cors');
@@ -42,14 +44,25 @@ app.use('/', router);
 const configPassport  = require('./passport/config');
 configPassport(app, express);
 
+
 // Controllers and Routers are for connecting data on server to the database:
 var authController = new authenticationController();
 var authRoute = authenticationRoute(express.Router(), app, authController);
 app.use('/auth', authRoute);
-
 var usrController = new userController();
 var usrRoute = userRoute(express.Router(), app, usrController);
 app.use('/', usrRoute);
+
+
+var pzlController = new puzzleController();
+var pzlRoute = puzzleRoute(express.Router(), app, pzlController);
+app.use('/', pzlRoute);
+
+app.listen(port, () => console.log(`Server is listening on port ${port}`));
+
+//may want to get rid of this requirement line if  we dont need to
+//use anything from it.
+var md5 = require("blueimp-md5")
 
 // Starting the server:
 app.listen(port, () => console.log(`Server is listening on port ${port}`));
