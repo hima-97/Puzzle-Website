@@ -1,8 +1,6 @@
 const passport = require("passport");
 // const { User } = require("../database/schemas");
 
-const authenticationService = require("../service/authenticationService");
-
 export default class authenticationController {
   constructor() {}
 
