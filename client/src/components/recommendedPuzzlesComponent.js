@@ -7,13 +7,13 @@ export default function RecommendedPuzzlesComponent() {
         <div class="carousel-wrapper">
             <Carousel infiniteLoop useKeyboardArrows autoPlay>
                 <div>
-                    <img src="C:\Users\himak\Desktop\Computer Science\Projects\Puzzle Website\Puzzle-Website\client\src\images\img1.jpg" />
+                    <img src="img1.jpg" />
                 </div>
                 <div>
-                    <img src="C:\Users\himak\Desktop\Computer Science\Projects\Puzzle Website\Puzzle-Website\client\src\images\img2.jpgg" />
+                    <img src="img2.jpg" />
                 </div>
                 <div>
-                    <img src="C:\Users\himak\Desktop\Computer Science\Projects\Puzzle Website\Puzzle-Website\client\src\images\img3.jpg" />
+                    <img src="img3.jpg" />
                 </div>
             </Carousel>
         </div>

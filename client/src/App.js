@@ -15,9 +15,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Importing components and pages to be used in this file:
 import NavbarComponent from './components/navbarComponent';
-import LoginComponent from "./components/signInComponent";
-import SignupComponent from "./components/signUpComponent";
-import RecommendedPuzzlesComponent from "./components/recommendedPuzzlesComponent";
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 import HomePage from './pages/HomePage';

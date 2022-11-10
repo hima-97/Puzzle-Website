@@ -4,7 +4,7 @@ export default class SignInComponent extends Component {
   render() {
     return (
       // Using form for sign-in:
-      <form>
+      <form className="myForm">
         <h3>Sign In</h3>
 
         <div className="mb-3">
