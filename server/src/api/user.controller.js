@@ -1,14 +1,15 @@
 const passport = require("passport");
 const UserModel = require("../models/Users");
-//grab the userModel for the getUsers cmd
 
 const authenticationService = require("../service/authenticationService");
 
+// The "userController" class defines the methods a user can perform: 
 export default class userController {
   //class that will have the different methods that the user will be able to do
   constructor() {}
 
-  //will display all users
+  // This will display all users in the model:
+  // This returns a JSON file with all users or, if there is no user, a JSON file with an error
   async getUsers(req, res, next) {
     UserModel.find({}, (err, result) => {
         if (err) {
@@ -16,16 +17,15 @@ export default class userController {
         } else {
             res.json(result);
         }
-        //returns a json file of the error if it exists, or all the users if there is not an error.
     });
   }
 
-  //will create a new User
+  // This will create a new user in the "UserModel" model:
   async createUser(req, res, next) {
     const user = req.body;
     const newUser = new UserModel(user);
     await newUser.save();
+    // This returns JSON file for the specific user:
     res.json(user);
-    //returns json of the user
   }
 }
