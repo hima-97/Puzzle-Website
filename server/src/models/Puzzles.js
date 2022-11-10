@@ -27,5 +27,5 @@ const PuzzleSchema = new mongoose.Schema({
     },
 });
 
-const PuzzleModel = mongoose.model("users", PuzzleSchema);
+const PuzzleModel = mongoose.model("puzzles", PuzzleSchema);
 module.exports = PuzzleModel;

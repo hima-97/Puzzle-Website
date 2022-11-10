@@ -4,7 +4,9 @@ import {
     authenticationController,
     authenticationRoute,
     userController,
-    userRoute
+    userRoute,
+    puzzleController,
+    puzzleRoute
 } from "./api";
 
 const cors = require('cors');
@@ -45,6 +47,10 @@ configPassport(app, express);
 var usrController = new userController();
 var usrRoute = userRoute(express.Router(), app, usrController);
 app.use('/', usrRoute);
+
+var pzlController = new puzzleController();
+var pzlRoute = puzzleRoute(express.Router(), app, pzlController);
+app.use('/', pzlRoute);
 
 app.listen(port, () => console.log(`Server is listening on port ${port}`));
 

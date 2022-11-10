@@ -1,16 +1,15 @@
 const passport = require("passport");
 const UserModel = require("../models/Users");
-var md5 = require("blueimp-md5")
-//grab the userModel for the getUsers cmd
+var md5 = require("blueimp-md5");
 
 const authenticationService = require("../service/authenticationService");
 
 export default class userController {
-  //class that will have the different methods that the user will be able to do
+  //class that will have the different methods that are in regards to users in the db
   constructor() {}
 
   //will display all users
-  async getUsers(req, res, next) {
+  async getAllUsers(req, res, next) {
     UserModel.find({}, (err, result) => {
         if (err) {
             res.json(err);
@@ -25,15 +24,37 @@ export default class userController {
   //keep in mind that for testing it will be the name in the db.
   //in the actual implementation it will be the name of the puzzle in the db.
   async findUsers(req, res, next) {
-    if (isNaN(userQuery)) {
-      //will push userQuery to be checked against and 'name'
-      uQuery = {name: userQuery}
-    } else {
-      //input is a number and name is not of type number
-      uQuery = 'INVALID INPUT';//
+    
+    //userQuery will be what the user has input to be searched
+    //selection will be which field to be searched. eg: username or age
+    //uQuery will be the query combining the above information into a query to be input into the "find" function seen later
+
+    let userQuery = "realadmin";
+    let selection = "username"; //will need to be based off of user choice of search.
+    let uQuery;
+
+    //basic query example for looking for users with the username "fakeadmin"
+    //let uQuery = {"username": "fakeadmin"};
+
+    //will switch the field to be searched within the database based on selection
+    switch (selection) {
+      case "firstname":
+        uQuery = {"firstname" : userQuery};
+        break;
+      case "lastname":
+        uQuery = {"lastname" : userQuery};
+        break;
+      case "username":
+        uQuery = {"username" : userQuery};
+        break;
+      case "age":
+        uQuery = {"age" : userQuery};
+        break;
+      default:
+        uQuery = "Error Invalid selection";
     }
 
-    UserModel.find({uQuery}, (err, result) => {
+    UserModel.find(uQuery, (err, result) => {
       if (err) {
         res.json(err);
       } else {
