@@ -2,7 +2,7 @@
 // This is the main React app with the code that is going to be displayed
 // This is basically the main entry point of the React app
 
-import React from 'react';
+import React, { useState } from 'react';
 
 // Used for routing URLs to different routes for the app:
 // The "react-router-dom" is used to make it easier to route different URLs to different React components:
@@ -17,11 +17,40 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import NavbarComponent from './components/navbarComponent';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
-import HomePage from './pages/HomePage';
+import HomePage from './pages/homePage';                                                                              //I uncapitalized the H
 import DashboardPage from './pages/DashboardPage';
 import GameplayPage from './pages/GameplayPage';
 
 function App() {
+
+  const [baseImage, setBaseImage] = useState("");
+
+  const uploadImage = async (e)=> {
+
+    //console.log(e.target.files);
+    const file = e.target.files[0];
+    const base64 = await convertBase64(file)
+    setBaseImage(base64);
+
+  };
+
+  const convertBase64 = (file)=> {
+    return new Promise((resolve, reject)=> {
+
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      }
+    });
+
+  };
+
   return (
     <>
       <NavbarComponent />
@@ -33,6 +62,21 @@ function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/gameplay" element={<GameplayPage />} />
         </Routes>
+        
+        <div> 
+          
+          <input type="file" onChange={((e)=> {
+            uploadImage(e)
+          })}/>
+
+        </div>
+      
+      <br></br>
+      
+      <div>
+          <img src={baseImage} height="200px"/>
+      </div>
+      
       </div>
     </>
     
