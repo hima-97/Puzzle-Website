@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
+import './signInComponent.css'
 
 export default class SignInComponent extends Component {
   render() {
     return (
       // Using form for sign-in:
-      <form className="myForm">
+      <div id="signin-container">
+        <form className="myForm">
         <h3>Sign In</h3>
 
         <div className="mb-3">
@@ -33,7 +35,7 @@ export default class SignInComponent extends Component {
               className="custom-control-input"
               id="customCheck1"
             />
-            <label className="custom-control-label" htmlFor="customCheck1">
+            <label className="custom-control-label">
                 Remember me
             </label>
           </div>
@@ -48,6 +50,7 @@ export default class SignInComponent extends Component {
           Forgot <a href="/#">password?</a>
         </p>
       </form>
+      </div>
     )
   }
 }

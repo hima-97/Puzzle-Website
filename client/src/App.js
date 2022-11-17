@@ -25,7 +25,7 @@ function App() {
   return (
     <>
       <NavbarComponent />
-      <div className="container">
+      <div className="container" >
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/sign-up" element={<SignUpPage />} />

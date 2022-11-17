@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800");
 
-#signup-container {
+#signin-container {
   justify-content: center;
     display: flex;
     margin: auto;
@@ -10,10 +10,18 @@
     align-items: center; /*To center horizontally*/
 }
 
-#signup-container form {
+#signin-container form {
   width: 30%;
   display: block;
   border: 2px solid "#FFD500";
   padding: 10px;
   background: #FFE878
+}
+
+.custom-control-label {
+  padding-left: 0.5rem;
+}
+
+.btn-primary {
+  background: #245297;
 }
