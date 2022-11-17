@@ -1,0 +1,13 @@
+.carousel-wrapper-recommended-puzzles {
+    max-width: 350px;
+    max-height: 350px;
+    margin: auto;
+    padding-top: 1.5rem;
+}
+
+.carousel-wrapper-favorite-puzzles {
+    max-width: 350px;
+    max-height: 350px;
+    margin: auto;
+    padding-top: 6rem;
+}
