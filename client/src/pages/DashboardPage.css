@@ -11,3 +11,8 @@
     margin: auto;
     padding-top: 6rem;
 }
+
+.carousel-wrapper-recommended-puzzles .carousel-slider
+{
+    width: 50% !important;
+}
