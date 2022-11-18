@@ -13,6 +13,7 @@ export default function NavbarComponent() {
         <CustomLink to="/sign-in">Sign In</CustomLink>
         <CustomLink to="/sign-up">Sign Up</CustomLink>
         <CustomLink to="/dashboard">Dashboard</CustomLink>
+        <CustomLink to="/gameplay">Gameplay</CustomLink>
       </ul>
     </nav>
   )
