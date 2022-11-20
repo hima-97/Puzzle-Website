@@ -8,8 +8,11 @@ import IconButton from "@mui/material/IconButton";
 import Settings from "@mui/icons-material/Settings";
 import ScreenShareIcon from "@mui/icons-material/ScreenShare";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { GameState } from "../Constants";
 
-export default function Setting() {
+export default function Setting(props) {
+  const { setGameState } = props;
+
   // Dropdown anchor position
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -27,6 +30,7 @@ export default function Setting() {
 
   const onExitClick = () => {
     console.log("onExitClick");
+    setGameState(GameState.SETUP);
   };
 
   // Tooltip will open Menu element when clicked at the bottom due to menu tyle

@@ -34,12 +34,6 @@ const Cell = (props) => {
         y={y}
         isOver={isOver}
       />
-
-      <style>{`
-        .piece:hover {
-          opacity: 0.8;
-        }
-      `}</style>
     </div>
   );
 };

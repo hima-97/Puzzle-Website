@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { convertSecondsToHoursString } from "./Utility";
+import { convertSecondsToHoursString } from "../Constants/Utility";
 
 export default function Timer(props) {
   const { time, onEndCountDown, forceStop } = props; // Time number in seconds

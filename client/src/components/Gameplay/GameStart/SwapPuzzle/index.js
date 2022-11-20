@@ -1,21 +1,17 @@
 import { useMemo, useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import Cell from "./Cell";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
-import Game from "./Game";
+import GameController from "./GameController";
+import Puzzle from "./Puzzle";
 
-const Puzzle = (props) => {
-  // State for rerendering the component and its children by setting random positions
-  const [positions, setPositions] = useState([]);
-  // Game will be stored until the component is unloaded
-  const game = useMemo(() => new Game(props, setPositions), [props]);
-  useEffect(() => {
-    if (!props.isDone) {
-      game.shufflePosition();
-      return;
-    }
-  }, [props, game]);
+const Game = (props) => {
+  const { isDone, isWin, onDone, image, level } = props;
+  // Game will be stored until the component is unloaded, only stateful values such image, level to not change game state
+  const game = useMemo(
+    () => new GameController({ image, level }),
+    [image, level]
+  );
 
   const [height, setHeight] = useState(0);
   // Reference to the element of render document
@@ -39,44 +35,39 @@ const Puzzle = (props) => {
     };
   }, [game, height]);
 
-  // Init the cell children of the puzzle by positions
-  const renderCells = () => {
-    const squares = positions.map((i) => {
-      return <Cell key={i} game={game} position={i} />;
-    });
-
-    return squares;
-  };
+  useEffect(() => {
+    game.isDone = isDone;
+    game.onDone = onDone;
+    game.isWin = isWin;
+  }, [isDone, isWin, onDone, game]);
 
   // DnD for setting drag and drop library
   return (
     <DndProvider backend={HTML5Backend}>
       <div
         style={{
-          display: "flex",
-          flexWrap: "wrap",
           width: `${game.size}px`,
           marginTop: "5%",
           height: "90%",
         }}
         ref={ref}
       >
-        {renderCells()}
+        {game.positions?.length ? <Puzzle game={game} /> : <div />}
       </div>
     </DndProvider>
   );
 };
 
 // Stricted props data from parent
-Puzzle.propTypes = {
+Game.propTypes = {
   image: PropTypes.string.isRequired,
   level: PropTypes.number,
   onDone: PropTypes.func,
 };
 
-Puzzle.defaultProps = {
+Game.defaultProps = {
   level: 3,
   onDone: () => {},
 };
 
-export default Puzzle;
+export default Game;
