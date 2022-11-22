@@ -69,7 +69,7 @@ export default class userController {
     await newUser.save();
     //returns json of the user
     res.json(user);
-
+    
     //this will be used for hashing the user's inputted password
 
     //the line below grabs the hashed version of the input text "test"
@@ -78,6 +78,6 @@ export default class userController {
     //I (Isaiah) will update this code when the frontend exists and grabs the fields from the user.
     //as of now it will be grabbed in a single json file
     // This returns JSON file for the specific user:
-    res.json(user);
+    //res.json(user);
   }
 }

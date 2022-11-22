@@ -20,16 +20,25 @@ import SignUpPage from './pages/SignUpPage';
 import HomePage from './pages/homePage';                                                                              //I uncapitalized the H
 import DashboardPage from './pages/DashboardPage';
 import GameplayPage from './pages/GameplayPage';
+import axios from 'axios';
 
 function App() {
+
+  const getQuote = () => {
+    axios.get('http://localhost:4002/getAllPuzzles')
+    .then(res => {
+      console.log(res);
+    }).catch(err => {
+      console.log(err);
+    })
+  }
 
   const [baseImage, setBaseImage] = useState("");
 
   const uploadImage = async (e)=> {
 
-    //console.log(e.target.files);
     const file = e.target.files[0];
-    const base64 = await convertBase64(file)
+    const base64 = await convertBase64(file);
     setBaseImage(base64);
 
   };
@@ -63,20 +72,25 @@ function App() {
           <Route path="/gameplay" element={<GameplayPage />} />
         </Routes>
         
-        <div> 
-          
-          <input type="file" onChange={((e)=> {
-            uploadImage(e)
-          })}/>
+        
+          <div> 
+            
+            <input type="file" accept=".jpeg,.jpg,.png" onChange={((e)=> {
 
-        </div>
-      
-      <br></br>
-      
-      <div>
-          <img src={baseImage} height="200px"/>
-      </div>
-      
+              //.gif
+              //may want to try with a gif as well
+              uploadImage(e)
+              
+            })}/>
+
+          </div>
+          
+          <br></br>
+          
+          <div>
+              <img src={baseImage} height="200px" alt="img from user"/>
+          </div>
+        <button onClick={getQuote}>Get Quote</button>
       </div>
     </>
     
