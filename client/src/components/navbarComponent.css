@@ -1,9 +1,8 @@
 /*For the body of the whole app in general (i.e. all pages)*/
 body {
   /*background: #FFE878 !important;*/
-
-  background-image: url(../../public/background.jpg);
-  /*background-position: center;*/
+  background-image: url(../../public/background.jpg) !important;
+  background-position: center;
   background-repeat: no-repeat;
   background-size: 100%;
 }
@@ -42,7 +41,7 @@ body {
 }
 
 .nav li.active {
-  background-color: #FFE878;
+  background-color: #ffcc32;
 }
 
 .nav li:hover {
