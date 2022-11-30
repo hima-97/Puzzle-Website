@@ -27,7 +27,7 @@ function App() {
       <NavbarComponent />
       <div className="container" >
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<SignUpPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/sign-in" element={<SignInPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
