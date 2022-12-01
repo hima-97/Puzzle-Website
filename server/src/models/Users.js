@@ -3,43 +3,51 @@
 // However, a model's instances represent individual documents that you can save and retrieve
 // "Users" entity database schema, using mongoose
 
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // Defining schema:
 const UserSchema = new mongoose.Schema({
-   //outline of what a user looks like in the database
-   firstname: {
+  //outline of what a user looks like in the database
+  firstName: {
     type: String,
     required: true,
-   },
-   lastname: {
-      type: String,
-      required: true,
-   },
-   username: {
+  },
+  lastName: {
     type: String,
     required: true,
-   },
-   age: {
-      type: Number,
-      required: true,
-   },
-   hashPassword: {
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  age: {
+    type: Number,
+  },
+  userPuzzles: [
+    {
       type: String,
       required: true,
-   },
-   userPuzzles: [{
+    },
+  ],
+  playedPuzzles: [
+    {
       type: String,
       required: true,
-   }],
-   playedPuzzles: [{
+    },
+  ],
+  favouritePuzzles: [
+    {
       type: String,
       required: true,
-   }],
-   favouritePuzzles: [{
-      type: String,
-      required: true,
-   }],
+    },
+  ],
+  accessToken: {
+    type: String,
+  },
 });
 
 // Defining and compiling model under name "Users":

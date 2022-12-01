@@ -1,7 +1,7 @@
 import axiosInstance from "./axiosInstance";
-import { API } from "constants";
+import { API } from "./constants";
 
 export const startGame = () => {
-  axiosInstance.post(API.startGame, {}).then().catch();
+  axiosInstance.post(API.START_GAME, {}).then().catch();
 };
 export const updateGameResult = () => {};
