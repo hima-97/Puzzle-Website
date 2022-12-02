@@ -19,7 +19,11 @@ export default class SignUpComponent extends Component {
 
           <div className="mb-3">
             <label>Last name</label>
-            <input type="text" className="form-control" placeholder="Last name" />
+            <input 
+              type="text"
+              className="form-control"
+              placeholder="Last name" 
+            />
           </div>
 
           <div className="mb-3">

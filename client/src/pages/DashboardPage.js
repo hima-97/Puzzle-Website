@@ -9,7 +9,6 @@ export default function DashboardPage() {
 
     axios.get('http://localhost:4002/getAllPuzzles')
     .then(res => {
-      //console.log(res.data[0].img);
       updatedImage(res.data[0].img);
     }).catch(err => {
       console.log(err);

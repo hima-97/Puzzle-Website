@@ -15,36 +15,11 @@ export default class puzzleController {
         });
     }
 
-    async findPuzzle(req, res, next) {
+    async getPuzzle(req, res, next) {
 
-    //puzzleQuery will be what the user has input to be searched
-    //selection will be which field to be searched. eg: name or difficulty
-    //uQuery will be the query combining the above information into a query to be input into the "find" function seen later
+    //getPuzzle returns the puzzle with objectid given if valid
 
-    let puzzleQuery = "Cat";
-    let selection = "name"; //will need to be based off of user choice of search.
-    let uQuery;
-
-    //basic query example for looking for puzzles with the name "Cat"
-    //let uQuery = {"name": "Cat"};
-
-    //will switch the field to be searched within the database based on selection
-    switch (selection) {
-      case "name":
-        uQuery = {"name" : puzzleQuery};
-        break;
-      case "img":
-        uQuery = {"img" : puzzleQuery};
-        break;
-      case "duration":
-        uQuery = {"duration" : puzzleQuery};
-        break;
-      case "genre":
-        uQuery = {"genre" : puzzleQuery};
-        break;
-      default:
-        uQuery = "Error Invalid selection";
-    }
+    const uQuery = "";//objectid
 
     PuzzleModel.find(uQuery, (err, result) => {
       if (err) {

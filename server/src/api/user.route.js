@@ -4,8 +4,8 @@
 
 var userRoute = (router, expressApp, userController) => {
   //router.get('/getAllUsers', userController.getUsers); //add it to the admin route
-  router.get('/findUser', userController.findUsers);
-  router.post('/createUser', userController.createUser);
+  router.get('/findUser', userController.findUsers); //delete this
+  router.post('/createUser', userController.createUser); //delete this too
   return router;
 }
 
