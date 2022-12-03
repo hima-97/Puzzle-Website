@@ -7,11 +7,11 @@ export const login = async (data) => {
       email: data.email,
       password: data.password,
     });
-    console.log(res);
+    console.log("login", res);
     return res;
   } catch (err) {
-    console.log(err);
-    return err;
+    console.log("login", err);
+    return new Promise((_, reject) => reject(err));
   }
 };
 
@@ -33,21 +33,21 @@ export const register = async (data) => {
       firstName: data.firstName,
       lastName: data.lastName,
     });
-    console.log(res);
+    console.log("register", res);
     return res;
   } catch (err) {
-    console.log(err);
-    return err;
+    console.log("register", err);
+    return new Promise((_, reject) => reject(err));
   }
 };
 
 export const logout = async () => {
   try {
     const res = await axiosInstance.post(API.LOGOUT);
-    console.log(res);
+    console.log("logout", res);
     return res;
   } catch (err) {
-    console.log(err);
+    console.log("logout", err);
     return err;
   }
 };

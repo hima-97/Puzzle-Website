@@ -21,8 +21,10 @@ export default class SignInComponent extends Component {
       email: evt.target.email.value,
       password: evt.target.password.value,
     });
-    console.log(res);
-    if (res.status === 200) localStorage.setItem("token", res.data.token);
+    if (res.status === 200) {
+      localStorage.setItem("token", res.data.token);
+      window.location.reload();
+    }
     this.setState({ isLoading: false });
   }
 

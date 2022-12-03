@@ -38,7 +38,6 @@ export default class authenticationController {
       });
 
       newUser.save().catch((err) => {
-        console.log(err);
         res.status(400).send({ message: "Error data saved" });
       });
 
@@ -46,7 +45,7 @@ export default class authenticationController {
       // req.login assign user data to the session
       req.login(newUser, (err) => {
         if (err) {
-          res.status(401).send({ message: "Login failed", err });
+          res.status(400).send({ message: "Login failed", err });
         }
         res.send({
           message: "Logged in successfully",
@@ -63,7 +62,7 @@ export default class authenticationController {
         return next(err);
       }
       if (!user) {
-        return res.status(401).send(info);
+        return res.status(400).send(info);
       }
 
       user.accessToken = generateAccessToken({
@@ -85,24 +84,23 @@ export default class authenticationController {
   async logout(req, res, next) {
     req.logout((err) => {
       if (err) {
-        console.log(err);
         return;
       }
 
       req.session.destroy(async (err) => {
         if (err) {
-          console.log(err);
           return;
         }
 
         try {
+          // Get user data from token
           var decoded = jwt.verify(
             req.header("authorization"),
             process.env.SESSION_SECRET
           );
           UserModel.findOne({ email: decoded.email }, async (err, user) => {
-            if (err) res.status(401).send();
-            if (!user) res.status(401).send();
+            if (err) res.status(400).send();
+            if (!user) res.status(400).send();
 
             user.accessToken = null;
             await user.save();
@@ -111,7 +109,7 @@ export default class authenticationController {
             res.send();
           });
         } catch (err) {
-          res.status(401).send();
+          res.status(400).send();
         }
       });
     });

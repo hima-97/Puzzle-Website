@@ -26,8 +26,10 @@ export default class SignUpComponent extends Component {
       firstName: evt.target.firstName.value,
       lastName: evt.target.lastName.value,
     });
-    console.log(res);
-    if (res.status === 200) localStorage.setItem("token", res.data.token);
+    if (res.status === 200) {
+      localStorage.setItem("token", res.data.token);
+      window.location.reload();
+    }
     this.setState({ isLoading: false });
   }
 
