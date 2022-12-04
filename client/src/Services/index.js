@@ -1,4 +1,4 @@
-import LoginService from "./loginService";
-import GameService from "./gameService";
+import * as LoginService from "./loginService";
+import * as GameService from "./gameService";
 
 export { LoginService, GameService };
