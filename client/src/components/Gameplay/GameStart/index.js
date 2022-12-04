@@ -4,13 +4,16 @@ import Setting from "./Setting";
 import IconButton from "@mui/material/IconButton";
 import HelpCenter from "@mui/icons-material/HelpCenter";
 import Timer from "./Timer";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Backdrop from "@mui/material/Backdrop";
-import { GameType } from "../Constants";
+import { GameState, GameType } from "../Constants";
+import { GameService } from "../../../Services";
+import Loading from "../../Loading";
+import ResultPopup from "./Result/ResultPopup";
 
 function RightSide(props) {
   // This right side component is responsible for the hint and timer during playing
-  const { image, time, isDone, onDone } = props;
+  const { image, time, forceStop, onDone, onStopTime } = props;
   const [isOpenDialog, setIsOpenDialog] = useState(false);
 
   const onCloseDialogClick = () => {
@@ -27,9 +30,14 @@ function RightSide(props) {
 
   return (
     <div className="right mt-3 me-3 d-flex align-items-end flex-column">
-      <Timer time={time} onEndCountDown={onEndCountDown} forceStop={isDone} />
+      <Timer
+        time={time}
+        onEndCountDown={onEndCountDown}
+        forceStop={forceStop}
+        onStopTime={onStopTime}
+      />
       <IconButton onClick={onHintClick} size="small">
-        <HelpCenter sx={{ width: 32, height: 32 }} />
+        <HelpCenter sx={{ width: 32, height: 32 }} style={{ color: "azure" }} />
       </IconButton>
 
       {/* Hint image */}
@@ -49,19 +57,70 @@ function RightSide(props) {
 export default function PuzzleGame(props) {
   // The component for all game container, this hold states that affecting the all components
   const { difficulty, gameType, time, image } = { ...props.gameConfig };
-  const { setGameState } = props;
+  const { gameState, setGameState } = props;
+
+  // This state use for clear timer interval
+  const [isExit, setIsExit] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const isWinRef = useRef(false);
+  const [isShowResultPopup, setIsShowResultPopup] = useState(false);
 
-  const onDone = (isWin) => {
-    if (isWin) console.log("Conguratulation");
-    else console.log("Try again");
-    isWinRef.current = isWin;
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Stop timer when the game is end
+  const onDone = (isWin, isSave = true) => {
     setIsDone(true);
+    // Case force exit game
+    if (isExit) return;
+    isWinRef.current = isWin;
+
+    // If end countdown, save lose result
+    if (!isWin && isSave) {
+      GameService.endGame(props.gameConfig, isWinRef.current, time)
+        .then(() => {
+          // Open lose popup
+          setIsShowResultPopup(true);
+        })
+        .finally(() => setIsLoading(false));
+    }
+  };
+
+  // Wait for onDone and receiving time from Timer, this case is win
+  const onStopTime = (time) => {
+    // Case force exit game
+    if (isExit) return;
+    if (isWinRef.current) console.log("Conguratulation");
+    else console.log("Try again");
+
+    // Save history
+    setIsLoading(true);
+    GameService.endGame(props.gameConfig, isWinRef.current, time)
+      .then(() => {
+        // Open win popup
+        setIsShowResultPopup(true);
+      })
+      .finally(() => setIsLoading(false));
+  };
+
+  // Wait for next render to stop timer
+  useEffect(() => {
+    if (isExit) setGameState(GameState.SETUP);
+  }, [isExit, setGameState]);
+
+  const onExitClick = () => {
+    setIsDone(true);
+    setIsExit(true);
   };
 
   return (
-    <div className="vw-100 vh-100 fixed-top bg-white d-flex justify-content-between">
+    <div
+      className="vw-100 vh-100 fixed-top bg-white d-flex justify-content-between"
+      style={{
+        background:
+          "url(https://dynamicresults.com/wp-content/uploads/2014/02/bg-puzzle.jpg) no-repeat center",
+        backgroundSize: "cover",
+      }}
+    >
       {/* Game space */}
       <div
         style={{
@@ -91,15 +150,27 @@ export default function PuzzleGame(props) {
       </div>
 
       <div className="left mt-3 ms-3">
-        <Setting setGameState={setGameState} />
+        <Setting onExitClick={onExitClick} />
       </div>
 
       <RightSide
         image={image}
         time={time}
-        isDone={isDone}
+        forceStop={isDone || gameState !== GameState.PLAYING}
         onDone={onDone.bind(this)}
+        onStopTime={onStopTime}
       />
+
+      {isShowResultPopup ? (
+        <ResultPopup
+          result={isWinRef.current}
+          setIsShowResultPopup={setIsShowResultPopup}
+          image={image}
+        />
+      ) : (
+        <></>
+      )}
+      <Loading isLoading={isLoading} />
     </div>
   );
 }

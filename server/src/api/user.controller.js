@@ -1,7 +1,10 @@
-const passport = require("passport");
+import PuzzleModel from "../models/Puzzles";
+const jwt = require("jsonwebtoken");
+const moment = require("moment");
 const UserModel = require("../models/Users");
+const PuzzleHistoryModel = require("../models/PuzzleHistory");
 
-// The "userController" class defines the methods a user can perform: 
+// The "userController" class defines the methods a user can perform:
 export default class userController {
   //class that will have the different methods that are in regards to users in the db
   constructor() {}
@@ -10,20 +13,18 @@ export default class userController {
   // This returns a JSON file with all users or, if there is no user, a JSON file with an error
   async getUsers(req, res, next) {
     UserModel.find({}, (err, result) => {
-        if (err) {
-            res.json(err);
-        } else {
-            res.json(result);
-        }
+      if (err) {
+        res.json(err);
+      } else {
+        res.json(result);
+      }
     });
   }
-
 
   //will display the items within the database that match the user's query
   //keep in mind that for testing it will be the name in the db.
   //in the actual implementation it will be the name of the puzzle in the db.
   async findUsers(req, res, next) {
-    
     //userQuery will be what the user has input to be searched
     //selection will be which field to be searched. eg: username or age
     //uQuery will be the query combining the above information into a query to be input into the "find" function seen later
@@ -38,16 +39,16 @@ export default class userController {
     //will switch the field to be searched within the database based on selection
     switch (selection) {
       case "firstname":
-        uQuery = {"firstname" : userQuery};
+        uQuery = { firstname: userQuery };
         break;
       case "lastname":
-        uQuery = {"lastname" : userQuery};
+        uQuery = { lastname: userQuery };
         break;
       case "username":
-        uQuery = {"username" : userQuery};
+        uQuery = { username: userQuery };
         break;
       case "age":
-        uQuery = {"age" : userQuery};
+        uQuery = { age: userQuery };
         break;
       default:
         uQuery = "Error Invalid selection";
@@ -79,5 +80,39 @@ export default class userController {
     //as of now it will be grabbed in a single json file
     // This returns JSON file for the specific user:
     res.json(user);
+  }
+
+  async getPuzzleHistory(req, res, next) {
+    var decoded = jwt.verify(
+      req.header("authorization"),
+      process.env.SESSION_SECRET
+    );
+    const { dateFrom, dateTo } = req.body;
+    // Find history record
+    PuzzleHistoryModel.find({
+      userEmail: decoded.email,
+      updatedAt: {
+        $gte: new Date(dateFrom),
+        $lte: new Date(dateTo),
+      },
+    })
+      .lean()
+      .limit(15)
+      .sort({ updatedAt: -1 })
+      .exec(async (err, history) => {
+        // Get puzzle data
+        try {
+          let items = [];
+          for (let idx = 0; idx < history.length; idx++) {
+            items[idx] = JSON.parse(JSON.stringify(history[idx]));
+            items[idx].puzzleData = await PuzzleModel.findOne({
+              _id: history[idx].puzzleId,
+            }).exec();
+          }
+          res.json(items);
+        } catch (err) {
+          res.json(err);
+        }
+      });
   }
 }

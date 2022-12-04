@@ -11,7 +11,6 @@ Strategies.local = new LocalStrategy(
   },
   (email, password, done) => {
     UserModel.findOne({ email: email }, async (err, user) => {
-      console.log(email, password);
       if (err) {
         return done(err);
       }

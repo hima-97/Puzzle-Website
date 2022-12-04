@@ -1,7 +1,8 @@
+import { useLocation } from "react-router-dom";
 import PuzzleGame from "../components/Gameplay";
 
 export default function GameplayPage() {
-  const image = null;
+  const { state } = useLocation(); // Game config from or page navigate to
 
-  return <PuzzleGame image={image} />;
+  return <PuzzleGame selectedGameConfig={state} />;
 }
