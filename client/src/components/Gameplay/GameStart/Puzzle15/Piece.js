@@ -1,3 +1,7 @@
+const audio = new Audio(
+  "https://cdn.freesound.org/previews/626/626136_13854369-lq.mp3"
+);
+
 export default function Piece(props) {
   const { game, index } = props;
 
@@ -6,13 +10,16 @@ export default function Piece(props) {
   const [x, y] = game.defaultPieceCoors[game.positions.indexOf(index)];
   const [xBGImage, yBGImage] = game.defaultPieceCoors[index];
 
+  const OnSlidePosition = (index) => {
+    audio.play();
+    game.onSlidePosition(index);
+  };
+
   return (
     <div
       className={game.isDone ? "" : index === 0 ? "" : "piece"}
       onClick={
-        game.isDone || index === 0
-          ? () => {}
-          : () => game.onSlidePosition(index)
+        game.isDone || index === 0 ? () => {} : () => OnSlidePosition(index)
       }
       style={{
         width: `${side}px`,
@@ -38,9 +45,7 @@ export default function Piece(props) {
           }}
         />
       ) : (
-        <div className="d-flex justify-content-center align-items-center w-100 h-100">
-          X
-        </div>
+        <div className="d-flex justify-content-center align-items-center w-100 h-100"></div>
       )}
     </div>
   );

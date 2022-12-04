@@ -11,6 +11,8 @@ import {
   userRoute,
   puzzleController,
   puzzleRoute,
+  gameController,
+  gameRoute,
 } from "./api";
 
 // Stricted the request location, currently all request locations
@@ -28,13 +30,14 @@ app.use(express.static(__dirname + "/public"));
 // Body parser:
 // This is the cors middleware, which allows us to parse JSON when server is sending and receiving
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.json({ limit: "4mb" }));
 app.use(
   cors({
     origin: "*",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   })
 );
+
 const router = express.Router();
 
 // Connecting to MongoDB:
@@ -49,15 +52,20 @@ configPassport(app, express);
 
 // Controllers and Routers are for connecting data on server to the database:
 var authController = new authenticationController();
-var authRoute = authenticationRoute(express.Router(), app, authController);
+var authRoute = authenticationRoute(router, app, authController);
 app.use("/auth", authRoute);
+
 var usrController = new userController();
-var usrRoute = userRoute(express.Router(), app, usrController);
+var usrRoute = userRoute(router, app, usrController);
 app.use("/", usrRoute);
 
 var pzlController = new puzzleController();
-var pzlRoute = puzzleRoute(express.Router(), app, pzlController);
+var pzlRoute = puzzleRoute(router, app, pzlController);
 app.use("/", pzlRoute);
+
+var gamController = new gameController();
+var gamRoute = gameRoute(router, app, gamController);
+app.use("/game", gamRoute);
 
 //may want to get rid of this requirement line if  we dont need to
 //use anything from it.

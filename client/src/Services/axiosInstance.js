@@ -1,61 +1,30 @@
 /* eslint-disable no-console */
 import axios from "axios";
-import qs from "qs";
+import { API } from "./constants";
+// import qs from "qs";
 
 // Create instance for customizations
 const instance = axios.create({
-  baseURL: process.env.SERVER_URL,
-  paramsSerializer: (params) => {
-    return qs.stringify(params, { indices: false });
+  baseURL: process.env.REACT_APP_SERVER_URL,
+  headers: {
+    Authorization: localStorage.getItem("token"),
+    Accept: "application/json",
   },
 });
 
-// request header before sending
-instance.interceptors.request.use(
-  (config) => {
-    config.headers = {
-      accept: "application/json",
-    };
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-function parseError(messages) {
-  // error
-  if (messages) {
-    if (messages instanceof Array) {
-      return Promise.reject(new Error("messages error here"));
-    }
-    return Promise.reject(new Error("messages error here 2"));
-  }
-  return Promise.reject(new Error("messages error here 3"));
-}
-
-// Parse response data
-function parseBody(response) {
-  if (response.status === 200 || response.status === 201) {
-    return response.data;
-  }
-  return parseError(response.data.messages);
-}
-
-// response parse
+// Check authenticated on
 instance.interceptors.response.use(
-  (response) => {
-    return parseBody(response);
+  function (response) {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    // Do something with response data
+    return response;
   },
-  async (error) => {
-    console.warn("Error status", error.response);
-    // return Promise.reject(error)
-    if (error.response) {
-      if (error.response.status === 401) {
-        // logout user?
-        console.log("error");
-      }
-      return error.response.data;
+  function (error) {
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    if (error.response.status === 401 && error.config.url !== API.CHECK_AUTH) {
+      localStorage.setItem("token", null);
+      alert("You need to login to process further!");
     }
     return Promise.reject(error);
   }

@@ -4,7 +4,7 @@ import { Carousel } from 'react-responsive-carousel';
 
 export default function RecommendedPuzzlesComponent() {
     return (
-        <div class="carousel-wrapper">
+        <div className="carousel-wrapper">
             <Carousel infiniteLoop useKeyboardArrows autoPlay>
                 <div>
                     <img src="img1.jpg" />

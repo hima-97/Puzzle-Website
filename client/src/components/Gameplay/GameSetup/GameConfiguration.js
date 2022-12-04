@@ -9,7 +9,6 @@ import Button from "@mui/material/Button";
 import { GameType, GameDifficulty, GameTime } from "../Constants";
 import Piece from "./Piece";
 import { shuffle, clamp } from "../Constants/Utility";
-import GameConfig from "./GameConfig";
 
 function PreviewPuzzle(props) {
   const { image, level } = props;
@@ -81,78 +80,88 @@ function Configuration(props) {
 
   const onChangeSelectType = (evt) => {
     // Rerender with new game type
-    const temp = new GameConfig(
-      tempConfig.difficulty,
-      evt.target.value,
-      tempConfig.time,
-      tempConfig.image
-    );
+    const temp = tempConfig.clone();
+    temp.gameType = evt.target.value;
     setTempConfig(temp);
   };
 
   const onChangeDifficulty = (_, value) => {
     // Rerender with new difficulty
     const clampVal = clamp(value, GameDifficulty.min, GameDifficulty.max);
-    const temp = new GameConfig(
-      clampVal,
-      tempConfig.gameType,
-      tempConfig.time,
-      tempConfig.image
-    );
+    const temp = tempConfig.clone();
+    temp.difficulty = clampVal;
     setTempConfig(temp);
   };
 
   const onChangeTime = (_, value) => {
     // Rerender with new time
     const clampVal = clamp(value, GameTime.min, GameTime.max);
-    const temp = new GameConfig(
-      tempConfig.difficulty,
-      tempConfig.gameType,
-      clampVal,
-      tempConfig.image
-    );
+    const temp = tempConfig.clone();
+    temp.time = clampVal;
+    setTempConfig(temp);
+  };
+
+  const onChangeName = (evt) => {
+    // Rerender with new name
+    const temp = tempConfig.clone();
+    temp.name = evt.target.value;
     setTempConfig(temp);
   };
 
   return (
-    <div className="d-flex justify-content-between" style={{ gap: "20px" }}>
-      <FormControl sx={{ width: 300 }}>
-        <InputLabel id="type-select-label">Type</InputLabel>
-        <Select
-          labelId="type-select-label"
-          id="demo-simple-select"
-          value={tempConfig.gameType}
-          label="Type"
-          onChange={onChangeSelectType}
-        >
-          {Object.values(GameType).map((type, index) => (
-            <MenuItem key={index} value={type}>
-              {type}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <Autocomplete
-        options={GameDifficulty.values}
-        getOptionLabel={(option) => option.toString()}
-        sx={{ width: 300 }}
-        freeSolo
-        value={tempConfig.difficulty}
-        onChange={onChangeDifficulty}
-        onInputChange={onChangeDifficulty}
-        renderInput={(params) => <TextField {...params} label="Difficulty" />}
-      />
-      <Autocomplete
-        options={GameTime.values}
-        getOptionLabel={(option) => option.toString()}
-        sx={{ width: 300 }}
-        freeSolo
-        value={tempConfig.time}
-        onChange={onChangeTime}
-        onInputChange={onChangeTime}
-        renderInput={(params) => <TextField {...params} label="Limit Time" />}
-      />
-    </div>
+    <>
+      {/* Name box */}
+      <div className="form-outline w-100">
+        <TextField
+          id="outlined-basic"
+          label="Name"
+          variant="outlined"
+          className="w-100 mb-3"
+          value={tempConfig.name}
+          onChange={onChangeName}
+          inputProps={{ minLength: 4, maxLength: 12 }}
+        />
+      </div>
+
+      <div className="d-flex justify-content-between" style={{ gap: "20px" }}>
+        <FormControl sx={{ width: 300 }}>
+          <InputLabel id="type-select-label">Type</InputLabel>
+          <Select
+            labelId="type-select-label"
+            id="demo-simple-select"
+            value={tempConfig.gameType}
+            label="Type"
+            onChange={onChangeSelectType}
+          >
+            {Object.values(GameType).map((type, index) => (
+              <MenuItem key={index} value={type}>
+                {type}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <Autocomplete
+          options={GameDifficulty.values}
+          getOptionLabel={(option) => option.toString()}
+          sx={{ width: 300 }}
+          freeSolo
+          value={tempConfig.difficulty}
+          onChange={onChangeDifficulty}
+          onInputChange={onChangeDifficulty}
+          renderInput={(params) => <TextField {...params} label="Difficulty" />}
+        />
+        <Autocomplete
+          options={GameTime.values}
+          getOptionLabel={(option) => option.toString()}
+          sx={{ width: 300 }}
+          freeSolo
+          value={tempConfig.time}
+          onChange={onChangeTime}
+          onInputChange={onChangeTime}
+          renderInput={(params) => <TextField {...params} label="Limit Time" />}
+        />
+      </div>
+    </>
   );
 }
 

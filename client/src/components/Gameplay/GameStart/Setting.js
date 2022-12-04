@@ -4,18 +4,62 @@ import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import Tooltip from "@mui/material/Tooltip";
+import { Dialog } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Settings from "@mui/icons-material/Settings";
 import ScreenShareIcon from "@mui/icons-material/ScreenShare";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import { GameState } from "../Constants";
+import {
+  FacebookShareButton,
+  PinterestShareButton,
+  RedditShareButton,
+  TelegramShareButton,
+  TwitterShareButton,
+} from "react-share";
+import {
+  FacebookIcon,
+  PinterestIcon,
+  RedditIcon,
+  TelegramIcon,
+  TwitterIcon,
+} from "react-share";
+
+function ShareDialog({ isOpenDialog, setIsOpenDialog }) {
+  return (
+    <Dialog onClose={() => setIsOpenDialog(false)} open={isOpenDialog}>
+      <div className="p-3">
+        <h3>Share:</h3>
+        <ul className="p-0">
+          <FacebookShareButton url={window.location.href} className="mx-2">
+            <FacebookIcon size={32} round={true} />
+          </FacebookShareButton>
+          <PinterestShareButton url={window.location.href} className="mx-2">
+            <PinterestIcon size={32} round={true} />
+          </PinterestShareButton>
+          <RedditShareButton url={window.location.href} className="mx-2">
+            <RedditIcon size={32} round={true} />
+          </RedditShareButton>
+          <TelegramShareButton url={window.location.href} className="mx-2">
+            <TelegramIcon size={32} round={true} />
+          </TelegramShareButton>
+          <TwitterShareButton url={window.location.href} className="mx-2">
+            <TwitterIcon size={32} round={true} />
+          </TwitterShareButton>
+        </ul>
+      </div>
+    </Dialog>
+  );
+}
 
 export default function Setting(props) {
-  const { setGameState } = props;
+  const { onExitClick } = props;
 
   // Dropdown anchor position
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  // Share dialog
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
 
   const onOpenMenuClick = (evt) => {
     setAnchorEl(evt.currentTarget);
@@ -25,12 +69,7 @@ export default function Setting(props) {
   };
 
   const onShareClick = () => {
-    console.log("onShareClick");
-  };
-
-  const onExitClick = () => {
-    console.log("onExitClick");
-    setGameState(GameState.SETUP);
+    setIsOpenDialog(true);
   };
 
   // Tooltip will open Menu element when clicked at the bottom due to menu tyle
@@ -44,7 +83,7 @@ export default function Setting(props) {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
         >
-          <Settings sx={{ width: 32, height: 32 }} />
+          <Settings style={{ color: "azure" }} sx={{ width: 32, height: 32 }} />
         </IconButton>
       </Tooltip>
       <Menu
@@ -96,6 +135,11 @@ export default function Setting(props) {
           Exit
         </MenuItem>
       </Menu>
+
+      <ShareDialog
+        isOpenDialog={isOpenDialog}
+        setIsOpenDialog={setIsOpenDialog}
+      />
     </div>
   );
 }
