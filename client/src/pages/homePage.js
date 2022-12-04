@@ -1,3 +1,14 @@
+// File for home page
+
+import RecommendedPuzzlesComponent from "../components/recommendedPuzzlesComponent"
+import FavoritePuzzlesComponent from "../components/favoritePuzzlesComponent"
+import './HomePage.css'
+
 export default function HomePage() {
-    return <h1>Home Page</h1>
+  return (
+    <>
+        <RecommendedPuzzlesComponent />
+        <FavoritePuzzlesComponent />
+    </>
+)
   }

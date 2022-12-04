@@ -18,7 +18,6 @@ import NavbarComponent from "./components/navbarComponent";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import HomePage from "./pages/HomePage";
-import DashboardPage from "./pages/DashboardPage";
 import GameplayPage from "./pages/GameplayPage";
 import { LoginService } from "./Services";
 import Loading from "./components/Loading";
@@ -56,10 +55,6 @@ function App() {
           <Route
             path="/sign-in"
             element={<SignInPage isLoggedIn={isLoggedIn} isAuth={isAuth} />}
-          />
-          <Route
-            path="/dashboard"
-            element={<DashboardPage isLoggedIn={isLoggedIn} isAuth={isAuth} />}
           />
           <Route
             path="/gameplay"
