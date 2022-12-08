@@ -3,7 +3,7 @@ import { API } from "./constants";
 
 export const search = async (dateFrom, dateTo) => {
   try {
-    const res = await axiosInstance.post(API.SEARCH_HISTORY, {
+    const res = await axiosInstance.post(API.SEARCH_PUZZLE, {
       dateFrom,
       dateTo,
     });

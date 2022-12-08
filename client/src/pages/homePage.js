@@ -4,11 +4,16 @@ import RecommendedPuzzlesComponent from "../components/recommendedPuzzlesCompone
 import FavoritePuzzlesComponent from "../components/favoritePuzzlesComponent"
 //import './HomePage.css'
 
-export default function HomePage() {
+export default function HomePage(props) {
+  const { isLoggedIn } = props;
   return (
     <>
-        <RecommendedPuzzlesComponent />
+      <RecommendedPuzzlesComponent />
+      {isLoggedIn ? (
         <FavoritePuzzlesComponent />
+      ) : (
+        <></>
+      )}
     </>
-)
-  }
+  )
+}

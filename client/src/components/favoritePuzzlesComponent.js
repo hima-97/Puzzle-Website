@@ -8,39 +8,37 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
 export default class FavoritePuzzlesComponent extends Component {
-    render() {
-        const settings = {
-          className: "center",
-          centerMode: true,
-          infinite: true,
-          centerPadding: "60px",
-          slidesToShow: 3,
-          speed: 500
-        };
-        return (
-          <div class="carousel-wrapper-favorite-puzzles">
-            <h2>Favorite Puzzles</h2>
-            <Slider {...settings}>
-              <div>
-                <h3>1</h3>
-              </div>
-              <div>
-                <h3>2</h3>
-              </div>
-              <div>
-                <h3>3</h3>
-              </div>
-              <div>
-                <h3>4</h3>
-              </div>
-              <div>
-                <h3>5</h3>
-              </div>
-              <div>
-                <h3>6</h3>
-              </div>
-            </Slider>
+  render() {
+    const settings = {
+      centerMode: false,
+      infinite: false,
+      slidesToShow: 5,
+      speed: 500
+    };
+    return (
+      <div class="carousel-wrapper-recommended-puzzles m-5 px-5">
+        <h2>Favorite Puzzles</h2>
+        <Slider {...settings}>
+          <div>
+            <img className="w-100" style={{ aspectRatio: 1 / 1 }} alt="" src="img1.jpg" />
           </div>
-        );
-      }
+          <div>
+            <img className="w-100" style={{ aspectRatio: 1 / 1 }} alt="" src="img2.jpg" />
+          </div>
+          <div>
+            <img className="w-100" style={{ aspectRatio: 1 / 1 }} alt="" src="img3.jpg" />
+          </div>
+          <div>
+            <img className="w-100" style={{ aspectRatio: 1 / 1 }} alt="" src="img4.jpg" />
+          </div>
+          <div>
+            <img className="w-100" style={{ aspectRatio: 1 / 1 }} alt="" src="img5.jpg" />
+          </div>
+          <div>
+            <img className="w-100" style={{ aspectRatio: 1 / 1 }} alt="" src="img6.jpg" />
+          </div>
+        </Slider>
+      </div>
+    );
+  }
 }
