@@ -2,7 +2,6 @@ import PuzzleModel from "../models/Puzzles";
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
 const UserModel = require("../models/Users");
-const PuzzleModel = require("../models/Puzzles");
 const PuzzleHistoryModel = require("../models/PuzzleHistory");
 
 // The "userController" class defines the methods a user can perform:
