@@ -54,4 +54,31 @@ export default class puzzleController {
     //returns json of the puzzle
     res.json(puzzle);
   }
+
+  async getRecommendedPuzzles(req, res, next) {
+    var decoded = jwt.verify(
+      req.header("authorization"),
+      process.env.SESSION_SECRET
+    );
+    // Find history record
+    PuzzleHistoryModel.find({
+      userEmail: decoded.email,
+    })
+      .lean()
+      .limit(15)
+      .exec(async (err) => {
+        // Get puzzle data for first 5 puzzles
+        try {
+          let items = [];
+          items[0] = await PuzzleModel.findOne({ _id: "636c4203dd7aa8600334d21d" }).exec();
+          items[1] = await PuzzleModel.findOne({ _id: "639226f7b317fadb5b200a3c" }).exec();
+          items[2] = await PuzzleModel.findOne({ _id: "63922ab0b317fadb5b200a43" }).exec();
+          items[3] = await PuzzleModel.findOne({ _id: "63922acdb317fadb5b200a44" }).exec();
+          items[4] = await PuzzleModel.findOne({ _id: "63922b07b317fadb5b200a45" }).exec();
+          res.json(items);
+        } catch (err) {
+          res.json(err);
+        }
+      });
+  }
 }

@@ -48,10 +48,6 @@ const UserSchema = new mongoose.Schema({
   accessToken: {
     type: String,
   },
-   lastPlayed: {
-      type: String,
-      required: true,
-   },
 });
 
 // Defining and compiling model under name "Users":

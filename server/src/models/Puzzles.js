@@ -11,7 +11,7 @@ const PuzzleSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    img: {
+    image: {
         //byte[]
         type: String,
         required: true,
