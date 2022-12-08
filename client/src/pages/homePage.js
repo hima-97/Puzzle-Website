@@ -2,7 +2,7 @@
 
 import RecommendedPuzzlesComponent from "../components/recommendedPuzzlesComponent"
 import FavoritePuzzlesComponent from "../components/favoritePuzzlesComponent"
-import './HomePage.css'
+//import './HomePage.css'
 
 export default function HomePage() {
   return (
