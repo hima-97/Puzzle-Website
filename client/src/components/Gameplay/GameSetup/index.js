@@ -68,15 +68,6 @@ export default function Setup(props) {
 
   return (
     <div className="m-5 px-5">
-      <div
-        className="position-absolute vw-100 vh-100 start-0 top-0"
-        style={{
-          background:
-            "url(http://www.abctherapyforme.com/uploads/8/7/8/5/8785318/puzzlebg.jpg) no-repeat center",
-          backgroundSize: "cover",
-          zIndex: -1,
-        }}
-      ></div>
       <Loading isLoading={isLoading} />
       <CustomDialog dialogData={dialogData} />
 

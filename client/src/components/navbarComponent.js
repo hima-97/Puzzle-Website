@@ -188,7 +188,6 @@ export default function NavbarComponent(props) {
         {/* Pages header */}
         <ul className="justify-content-between justify-content-md-end">
           <div className="d-flex gap-1">
-            <CustomLink to="/dashboard">Dashboard</CustomLink>
             <CustomLink to="/gameplay">Gameplay</CustomLink>
           </div>
           {!isLoggedIn ? (

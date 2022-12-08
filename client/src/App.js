@@ -18,12 +18,11 @@ import NavbarComponent from "./components/navbarComponent";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import HomePage from "./pages/HomePage";
-import DashboardPage from "./pages/DashboardPage";
 import GameplayPage from "./pages/GameplayPage";
 import { LoginService } from "./Services";
 import Loading from "./components/Loading";
 import ListPuzzlePage from "./pages/ListPuzzlePage";
-import HistoryPage from "./pages/HIstoryPage";
+import HistoryPage from "./pages/HistoryPage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -48,7 +47,9 @@ function App() {
 
       <div className="container">
         <Routes>
-          <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} isAuth={isAuth} />} />
+          <Route
+            path="/"
+            element={<HomePage isLoggedIn={isLoggedIn} isAuth={isAuth} />} />
           <Route
             path="/sign-up"
             element={<SignUpPage isLoggedIn={isLoggedIn} isAuth={isAuth} />}
@@ -56,10 +57,6 @@ function App() {
           <Route
             path="/sign-in"
             element={<SignInPage isLoggedIn={isLoggedIn} isAuth={isAuth} />}
-          />
-          <Route
-            path="/dashboard"
-            element={<DashboardPage isLoggedIn={isLoggedIn} isAuth={isAuth} />}
           />
           <Route
             path="/gameplay"
