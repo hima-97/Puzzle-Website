@@ -1,7 +1,8 @@
 var puzzleRoute = (router, expressApp, puzzleController) => {
     router.get('/getAllPuzzles', puzzleController.getAllPuzzles);
-    router.get('/findPuzzle', puzzleController.findPuzzle);
+    router.get('/getPuzzle', puzzleController.getPuzzle);
     router.post('/createPuzzle', puzzleController.createPuzzle);
+    router.get('/getRecommended', puzzleController.getRecommendedPuzzles);
     return router;
   }
   

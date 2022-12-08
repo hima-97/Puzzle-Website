@@ -4,9 +4,13 @@
 import { requireAuth } from "./middleware";
 
 var userRoute = (router, expressApp, userController) => {
-  //router.get('/getAllUsers', userController.getAllUsers); //add it to the admin route
-  router.get('/findUser', userController.findUsers);
-  router.post('/createUser', userController.createUser);
+  router.get('/getUserList', userController.getEntireList);
+  router.post('/addPuzzleToUserList', userController.addPuzzleToUserList);
+  router.post('/deletePuzzleFromUserList', userController.deletePuzzleFromUserList);
+  router.post('/clearListFromUser', userController.clearListFromUser);
+//getRec
+  router.get('/getLastPlayed', userController.getLastPlayedPuzzleFromUser);
+  router.post('/setLastPlayed', userController.setLastPlayedPuzzleFromUser);
   router.post('/history/search', requireAuth, userController.getPuzzleHistory);
   return router;
 }

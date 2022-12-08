@@ -9,77 +9,266 @@ export default class userController {
   //class that will have the different methods that are in regards to users in the db
   constructor() {}
 
-  // This will display all users in the model:
-  // This returns a JSON file with all users or, if there is no user, a JSON file with an error
-  async getUsers(req, res, next) {
-    UserModel.find({}, (err, result) => {
-      if (err) {
-        res.json(err);
-      } else {
-        res.json(result);
-      }
-    });
+  //given the entire username and desired list, we grab the entirety of that list from the db for the specified username
+  async getEntireList(req, res, next) {
+    //grab username and list desired
+    const uName = req.body.username;
+    const uList = req.body.list;
+
+    //if no username nor list given then cant do anything
+    if (uName == null || uList == null) {
+      res.json("invalid request");
+    } else {
+      //now we check validity of username
+      UserModel.find({ username: uName }, (err, result) => {
+        if (err) {
+          res.json(err)
+        } else if (result[0] == null) {
+          //no such user in db
+          res.json("invalid username");
+        } else {
+          //List must be Played or Favourite. It automatically lowercases the input
+          //if the list is valid then we return the desired list
+          if (uList.toLowerCase() == "played") {
+            res.json(result[0].playedPuzzles);
+          } else if (uList.toLowerCase() == "favourite") {
+            res.json(result[0].favouritePuzzles);
+          } else {
+            //and if the list is invalid then we display so
+            res.json("invalid list");
+          }
+        }        
+      });
+    }
   }
 
-  //will display the items within the database that match the user's query
-  //keep in mind that for testing it will be the name in the db.
-  //in the actual implementation it will be the name of the puzzle in the db.
-  async findUsers(req, res, next) {
-    //userQuery will be what the user has input to be searched
-    //selection will be which field to be searched. eg: username or age
-    //uQuery will be the query combining the above information into a query to be input into the "find" function seen later
+  async addPuzzleToUserList(req, res, next) {
+    //grab username, list, and puzzle desired
+    const uName = req.body.username;
+    const uList = req.body.list;
+    const uPuzzle = req.body.puzzle;
 
-    let userQuery = "realadmin";
-    let selection = "username"; //will need to be based off of user choice of search.
-    let uQuery;
+    //if no username nor list given then cant do anything
+    if (uName == null || uList == null || uPuzzle == null) {
+      res.json("invalid request");
+    } else {
+      //now we check validity of the given Puzzle
+      //
 
-    //basic query example for looking for users with the username "fakeadmin"
-    //let uQuery = {"username": "fakeadmin"};
+      //check the list for validity
+      switch(uList.toLowerCase()) {
+        case "played":
+          //uPuzzle is valid so we append the Puzzle to playedPuzzles
+          UserModel.findOneAndUpdate( {username : uName} , {$push : {playedPuzzles : [uPuzzle]}}, {new : true} , (err, result) => {
+            if (err) {
+              res.json(err);
+            } else {
+              if (result == null) {
+                res.json("invalid username")
+              } else {
+                res.json(result);
+              }
+            }
+          });
+          break;
 
-    //will switch the field to be searched within the database based on selection
-    switch (selection) {
-      case "firstname":
-        uQuery = { firstname: userQuery };
-        break;
-      case "lastname":
-        uQuery = { lastname: userQuery };
-        break;
-      case "username":
-        uQuery = { username: userQuery };
-        break;
-      case "age":
-        uQuery = { age: userQuery };
-        break;
-      default:
-        uQuery = "Error Invalid selection";
+        case "favourite":
+          //uPuzzle is valid so we append the Puzzle to favouritePuzzles
+          UserModel.findOneAndUpdate( {username : uName} , {$push : {favouritePuzzles : [uPuzzle]}}, {new : true} , (err, result) => {
+            if (err) {
+              res.json(err);
+            } else {
+              if (result == null) {
+                res.json("invalid username")
+              } else {
+                res.json(result);
+              }
+            }
+          });
+          break;
+
+        default:
+          res.json("invalid list");
+      }
+    }
+  }
+
+  async deletePuzzleFromUserList(req, res, next) {
+    //grab username, list, and puzzle desired
+    const uName = req.body.username;
+    const uList = req.body.list;
+    const uPuzzle = req.body.puzzle;
+
+    //if no username nor list given then cant do anything
+    if (uName == null || uList == null || uPuzzle == null) {
+      res.json("invalid request");
+    } else {
+      //now we check validity of the given Puzzle
+      //
+
+      //check the list for validity
+      switch(uList.toLowerCase()) {
+        case "played":
+          //uPuzzle is valid so we append the Puzzle to playedPuzzles
+          UserModel.findOneAndUpdate( {username : uName} , {$pull : {playedPuzzles : uPuzzle}}, {new : true} , (err, result) => {
+            if (err) {
+              res.json(err);
+            } else {
+              if (result == null) {
+                res.json("invalid username")
+              } else {
+                res.json(result);
+              }
+            }
+          });
+          break;
+
+        case "favourite":
+          //uPuzzle is valid so we append the Puzzle to favouritePuzzles
+          UserModel.findOneAndUpdate( {username : uName} , {$pull : {favouritePuzzles : uPuzzle}}, {new : true} , (err, result) => {
+            if (err) {
+              res.json(err);
+            } else {
+              if (result == null) {
+                res.json("invalid username")
+              } else {
+                res.json(result);
+              }
+            }
+          });
+          break;
+
+        default:
+          res.json("invalid list");
+      }
+    }
+  }
+
+  async clearListFromUser(req, res, next) {
+    //grab username and list desired
+    const uName = req.body.username;
+    const uList = req.body.list;
+
+    //if no username nor list given then cant do anything
+    if (uName == null || uList == null) {
+      res.json("invalid request");
+    } else {
+      //check the list for validity
+      switch(uList.toLowerCase()) {
+        case "played":
+          //make playedPuzzles the empty array
+          UserModel.findOneAndUpdate( {username : uName} , {playedPuzzles : []}, {new : true} , (err, result) => {
+            if (err) {
+              res.json(err);
+            } else {
+              if (result == null) {
+                res.json("invalid username")
+              } else {
+                res.json(result);
+              }
+            }
+          });
+          break;
+
+        case "favourite":
+          //make favouritePuzzles the empty array
+          UserModel.findOneAndUpdate( {username : uName} , {favouritePuzzles : []}, {new : true} , (err, result) => {
+            if (err) {
+              res.json(err);
+            } else {
+              if (result == null) {
+                res.json("invalid username")
+              } else {
+                res.json(result);
+              }
+            }
+          });
+          break;
+
+        default:
+          res.json("invalid list");
+        }
+      }
     }
 
-    UserModel.find(uQuery, (err, result) => {
-      if (err) {
-        res.json(err);
-      } else {
-        res.json(result);
-      }
-    });
+  async getRecommendedPuzzles(req, res, next) {
+    //
   }
 
-  //will create a new User
-  async createUser(req, res, next) {
-    const user = req.body;
-    const newUser = new UserModel(user);
-    await newUser.save();
-    //returns json of the user
-    res.json(user);
+  async getLastPlayedPuzzleFromUser(req, res, next) {
+    //grab username
+    const uName = req.body.username;
 
-    //this will be used for hashing the user's inputted password
+    //check if given info is null
+    if (uName == null) {
+      res.json("invalid request")
+    } else {
+      //return lastPlayed for user if the user exists
+      UserModel.findOne({ username : uName }, (err, result) => {
+        if (err) {
+          res.json(err);
+        } else if (result == null) {
+          res.json("invalid username");
+        } else {
+          res.json(result.lastPlayed);
+        }
+      });
+    }
+  }
 
-    //the line below grabs the hashed version of the input text "test"
-    //var hash = md5("test");
+  async setLastPlayedPuzzleFromUser(req, res, next) {
+    //grab username and puzzle
+    const uName = req.body.username;
+    const uPuzzle = req.body.puzzle;
 
-    //I (Isaiah) will update this code when the frontend exists and grabs the fields from the user.
-    //as of now it will be grabbed in a single json file
-    // This returns JSON file for the specific user:
-    res.json(user);
+    if (uName == null || uPuzzle == null) {
+      res.json("invalid request")
+    } else {
+      //check for validity of puzzle
+      //
+
+      UserModel.findOneAndUpdate({ username : uName }, {lastPlayed : uPuzzle}, {new : true}, (err, result) => {
+        if (err) {
+          res.json(err);
+        } else {
+          res.json(result);
+        }
+      });
+    }
+  }
+
+  async getPuzzleHistory(req, res, next) {
+    var decoded = jwt.verify(
+      req.header("authorization"),
+      process.env.SESSION_SECRET
+    );
+    const { dateFrom, dateTo } = req.body;
+    // Find history record
+    PuzzleHistoryModel.find({
+      userEmail: decoded.email,
+      updatedAt: {
+        $gte: new Date(dateFrom),
+        $lte: new Date(dateTo),
+      },
+    })
+      .lean()
+      .limit(15)
+      .sort({ updatedAt: -1 })
+      .exec(async (err, history) => {
+        // Get puzzle data
+        try {
+          let items = [];
+          for (let idx = 0; idx < history.length; idx++) {
+            items[idx] = JSON.parse(JSON.stringify(history[idx]));
+            items[idx].puzzleData = await PuzzleModel.findOne({
+              _id: history[idx].puzzleId,
+            }).exec();
+          }
+          res.json(items);
+        } catch (err) {
+          res.json(err);
+        }
+      });
   }
 
   async getPuzzleHistory(req, res, next) {

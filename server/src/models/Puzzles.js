@@ -12,12 +12,12 @@ const PuzzleSchema = new mongoose.Schema({
         required: true,
     },
     image: {
-        // base64 encoded
+        //byte[]
         type: String,
         required: true,
     },
     duration: {
-        // in seconds
+        //in ms
         type: Number,
         required: false,
     },
@@ -29,6 +29,9 @@ const PuzzleSchema = new mongoose.Schema({
         // will be an integer
         type: Number,
         required: true,
+    },
+    genre: {
+        type: String,
     },
     createdAt:{
       type: Date,
