@@ -59,9 +59,5 @@ var pzlController = new puzzleController();
 var pzlRoute = puzzleRoute(express.Router(), app, pzlController);
 app.use("/", pzlRoute);
 
-//may want to get rid of this requirement line if  we dont need to
-//use anything from it.
-//var md5 = require("blueimp-md5")
-
 // Starting the server:
 app.listen(port, () => console.log(`Server is listening on port ${port}`));

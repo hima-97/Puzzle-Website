@@ -40,6 +40,10 @@ const UserSchema = new mongoose.Schema({
       type: String,
       required: true,
    }],
+   lastPlayed: {
+      type: String,
+      required: true,
+   },
 });
 
 // Defining and compiling model under name "Users":

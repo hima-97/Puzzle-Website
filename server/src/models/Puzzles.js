@@ -24,13 +24,13 @@ const PuzzleSchema = new mongoose.Schema({
         type: Number,
         required: false,
     },
-    genre: {
-        type: String,
-    },
     difficulty: {
         //will be an integer: 0,1,2 for easy, medium, hard
         type: Number,
         required: true,
+    },
+    genre: {
+        type: String,
     },
 });
 

@@ -3,9 +3,13 @@
 
 
 var userRoute = (router, expressApp, userController) => {
-  //router.get('/getAllUsers', userController.getUsers); //add it to the admin route
-  router.get('/findUser', userController.findUsers); //delete this
-  router.post('/createUser', userController.createUser); //delete this too
+  router.get('/getUserList', userController.getEntireList);
+  router.post('/addPuzzleToUserList', userController.addPuzzleToUserList);
+  router.post('/deletePuzzleFromUserList', userController.deletePuzzleFromUserList);
+  router.post('/clearListFromUser', userController.clearListFromUser);
+//getRec
+  router.get('/getLastPlayed', userController.getLastPlayedPuzzleFromUser);
+  router.post('/setLastPlayed', userController.setLastPlayedPuzzleFromUser);
   return router;
 }
 
