@@ -1,6 +1,7 @@
 // A route is a section of Express code that associates an HTTP verb (GET, POST, PUT, DELETE, etc.),
 // a URL path/pattern, and a function that is called to handle that pattern
 
+import { requireAuth } from "./middleware";
 
 var userRoute = (router, expressApp, userController) => {
   router.get('/getUserList', userController.getEntireList);
@@ -10,6 +11,7 @@ var userRoute = (router, expressApp, userController) => {
 //getRec
   router.get('/getLastPlayed', userController.getLastPlayedPuzzleFromUser);
   router.post('/setLastPlayed', userController.setLastPlayedPuzzleFromUser);
+  router.post('/history/search', requireAuth, userController.getPuzzleHistory);
   return router;
 }
 

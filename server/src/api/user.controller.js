@@ -1,8 +1,11 @@
-const passport = require("passport");
+import PuzzleModel from "../models/Puzzles";
+const jwt = require("jsonwebtoken");
+const moment = require("moment");
 const UserModel = require("../models/Users");
 const PuzzleModel = require("../models/Puzzles");
+const PuzzleHistoryModel = require("../models/PuzzleHistory");
 
-// The "userController" class defines the methods a user can perform: 
+// The "userController" class defines the methods a user can perform:
 export default class userController {
   //class that will have the different methods that are in regards to users in the db
   constructor() {}
@@ -233,5 +236,73 @@ export default class userController {
         }
       });
     }
+  }
+
+  async getPuzzleHistory(req, res, next) {
+    var decoded = jwt.verify(
+      req.header("authorization"),
+      process.env.SESSION_SECRET
+    );
+    const { dateFrom, dateTo } = req.body;
+    // Find history record
+    PuzzleHistoryModel.find({
+      userEmail: decoded.email,
+      updatedAt: {
+        $gte: new Date(dateFrom),
+        $lte: new Date(dateTo),
+      },
+    })
+      .lean()
+      .limit(15)
+      .sort({ updatedAt: -1 })
+      .exec(async (err, history) => {
+        // Get puzzle data
+        try {
+          let items = [];
+          for (let idx = 0; idx < history.length; idx++) {
+            items[idx] = JSON.parse(JSON.stringify(history[idx]));
+            items[idx].puzzleData = await PuzzleModel.findOne({
+              _id: history[idx].puzzleId,
+            }).exec();
+          }
+          res.json(items);
+        } catch (err) {
+          res.json(err);
+        }
+      });
+  }
+
+  async getPuzzleHistory(req, res, next) {
+    var decoded = jwt.verify(
+      req.header("authorization"),
+      process.env.SESSION_SECRET
+    );
+    const { dateFrom, dateTo } = req.body;
+    // Find history record
+    PuzzleHistoryModel.find({
+      userEmail: decoded.email,
+      updatedAt: {
+        $gte: new Date(dateFrom),
+        $lte: new Date(dateTo),
+      },
+    })
+      .lean()
+      .limit(15)
+      .sort({ updatedAt: -1 })
+      .exec(async (err, history) => {
+        // Get puzzle data
+        try {
+          let items = [];
+          for (let idx = 0; idx < history.length; idx++) {
+            items[idx] = JSON.parse(JSON.stringify(history[idx]));
+            items[idx].puzzleData = await PuzzleModel.findOne({
+              _id: history[idx].puzzleId,
+            }).exec();
+          }
+          res.json(items);
+        } catch (err) {
+          res.json(err);
+        }
+      });
   }
 }

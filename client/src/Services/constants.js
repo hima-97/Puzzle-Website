@@ -1,7 +1,12 @@
 export const API = {
-  LOGIN: "login",
-  REGISTER: "register",
+  LOGIN: "auth/login",
+  REGISTER: "auth/register",
+  CHECK_AUTH: "auth/check-auth",
+  LOGOUT: "auth/logout",
 
-  START_GAME: "startGame",
-  UPDATE_GAME_RESULT: "updateGameResult",
+  SEARCH_PUZZLE: "puzzle/search",
+  SEARCH_HISTORY: "history/search",
+
+  START_GAME: "game/start",
+  END_GAME: "game/end",
 };

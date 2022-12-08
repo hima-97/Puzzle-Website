@@ -9,24 +9,16 @@ import UploadImage from "./UploadImage";
 import { checkBase64Image } from "../Constants/Utility";
 import CustomDialog, { DialogData } from "../../CustomDialog";
 import Loading from "../../Loading";
-import GameConfig from "./GameConfig";
-import { GameType, GameDifficulty, GameTime } from "../Constants";
+import { GameService } from "../../../Services";
 
 const steps = ["Select or Upload Image", "Set Game Up"];
 
 export default function Setup(props) {
   // setGameConfig when done all setup steps
-  const { selectedImage, setGameState, setGameConfig } = props;
+  const { setGameState, setGameConfig, selectedGameConfig } = props;
 
   // Temporary config for rerendering this component
-  const [tempGameConfig, setTempGameConfig] = useState(
-    new GameConfig(
-      GameDifficulty.defaultValue,
-      GameType.SWAP_PUZZLE,
-      GameTime.defaultValue,
-      selectedImage
-    )
-  );
+  const [tempGameConfig, setTempGameConfig] = useState(selectedGameConfig);
 
   // Loading and Dialog data for utility components
   const [isLoading, setIsLoading] = useState(false);
@@ -39,8 +31,18 @@ export default function Setup(props) {
 
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
-      setGameConfig(tempGameConfig);
-      setGameState(GameState.PLAYING);
+      // Start game
+      setIsLoading(true);
+      GameService.startGame(tempGameConfig)
+        .then((res) => {
+          // Assign the id to start the game
+          const temp = tempGameConfig.clone();
+          temp.puzzleId = res.data;
+          setGameConfig(temp);
+          setGameState(GameState.PLAYING);
+        })
+        .catch(() => {})
+        .finally(() => setIsLoading(false));
       return;
     }
 
@@ -66,6 +68,15 @@ export default function Setup(props) {
 
   return (
     <div className="m-5 px-5">
+      <div
+        className="position-absolute vw-100 vh-100 start-0 top-0"
+        style={{
+          background:
+            "url(http://www.abctherapyforme.com/uploads/8/7/8/5/8785318/puzzlebg.jpg) no-repeat center",
+          backgroundSize: "cover",
+          zIndex: -1,
+        }}
+      ></div>
       <Loading isLoading={isLoading} />
       <CustomDialog dialogData={dialogData} />
 
@@ -90,7 +101,7 @@ export default function Setup(props) {
           <UploadImage
             image={tempGameConfig.image}
             setImage={(image) => {
-              tempGameConfig.image = image ? image : selectedImage;
+              tempGameConfig.image = image ? image : selectedGameConfig.image;
               setTempGameConfig(tempGameConfig);
             }}
             setIsLoading={setIsLoading}

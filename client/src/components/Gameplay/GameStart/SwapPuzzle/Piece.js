@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDrag } from "react-dnd";
 import { PuzzleItemTypes } from "./Constants";
+
+const audio = new Audio(
+  "https://cdn.freesound.org/previews/61/61307_767031-lq.mp3"
+);
 
 const Piece = (props) => {
   const { game, side, x, y, isOver, position } = props;
 
   // Setting draggable component
-  const [, drag] = useDrag(() => ({
+  const [collected, drag] = useDrag(() => ({
     type: PuzzleItemTypes.SQUARE,
     item: { position },
     canDrag: () => !game.isDone,
@@ -14,6 +18,10 @@ const Piece = (props) => {
       isDragging: !!monitor.isDragging(),
     }),
   }));
+
+  useEffect(() => {
+    if (collected.isDragging) audio.play();
+  }, [collected]);
 
   return (
     <div

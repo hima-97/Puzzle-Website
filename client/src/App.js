@@ -2,100 +2,85 @@
 // This is the main React app with the code that is going to be displayed
 // This is basically the main entry point of the React app
 
-import React, { useState } from 'react';
+import { useEffect, useState } from "react";
 
 // Used for routing URLs to different routes for the app:
 // The "react-router-dom" is used to make it easier to route different URLs to different React components:
 // With this, you will be able to have a router element for each route of the application
 // You need to put everything you want to be used with the router inside the router element
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Navigate } from "react-router-dom";
 
 // Importing bootstrap:
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 // Importing components and pages to be used in this file:
-import NavbarComponent from './components/navbarComponent';
-import SignInPage from './pages/SignInPage';
-import SignUpPage from './pages/SignUpPage';
-import HomePage from './pages/homePage';                                                                              //I uncapitalized the H
-import DashboardPage from './pages/DashboardPage';
-import GameplayPage from './pages/GameplayPage';
-import axios from 'axios';
+import NavbarComponent from "./components/navbarComponent";
+import SignInPage from "./pages/SignInPage";
+import SignUpPage from "./pages/SignUpPage";
+import HomePage from "./pages/HomePage";
+import DashboardPage from "./pages/DashboardPage";
+import GameplayPage from "./pages/GameplayPage";
+import { LoginService } from "./Services";
+import Loading from "./components/Loading";
+import ListPuzzlePage from "./pages/ListPuzzlePage";
+import HistoryPage from "./pages/HIstoryPage";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
 
-  const getQuote = () => {
-    axios.get('http://localhost:4002/getAllPuzzles')
-    .then(res => {
-      console.log(res);
-    }).catch(err => {
-      console.log(err);
-    })
-  }
-
-  const [baseImage, setBaseImage] = useState("");
-
-  const uploadImage = async (e)=> {
-
-    const file = e.target.files[0];
-    const base64 = await convertBase64(file);
-    setBaseImage(base64);
-
-  };
-
-  const convertBase64 = (file)=> {
-    return new Promise((resolve, reject)=> {
-
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-
-      fileReader.onerror = (error) => {
-        reject(error);
-      }
-    });
-
-  };
+  useEffect(() => {
+    setIsLoading(true);
+    // Check user is logged in after render the first time
+    LoginService.checkAuth()
+      .then((isAuth) => setIsLoggedIn(isAuth))
+      .catch((_) => setIsLoggedIn(false))
+      .finally(() => {
+        setIsAuth(true);
+        setIsLoading(false);
+      });
+  }, []);
 
   return (
     <>
-      <NavbarComponent />
+      <NavbarComponent isLoggedIn={isLoggedIn} isAuth={isAuth} setIsLoggedIn={setIsLoggedIn} />
+
       <div className="container">
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/sign-up" element={<SignUpPage />} />
-          <Route path="/sign-in" element={<SignInPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/gameplay" element={<GameplayPage />} />
+          <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} isAuth={isAuth} />} />
+          <Route
+            path="/sign-up"
+            element={<SignUpPage isLoggedIn={isLoggedIn} isAuth={isAuth} />}
+          />
+          <Route
+            path="/sign-in"
+            element={<SignInPage isLoggedIn={isLoggedIn} isAuth={isAuth} />}
+          />
+          <Route
+            path="/dashboard"
+            element={<DashboardPage isLoggedIn={isLoggedIn} isAuth={isAuth} />}
+          />
+          <Route
+            path="/gameplay"
+            element={<GameplayPage isLoggedIn={isLoggedIn} isAuth={isAuth} />}
+          />
+          <Route
+            path="/search"
+            element={<ListPuzzlePage isLoggedIn={isLoggedIn} isAuth={isAuth} />}
+          />
+          <Route
+            path="/history"
+            element={<HistoryPage isLoggedIn={isLoggedIn} isAuth={isAuth} />}
+          />
+          {/* <Route path="/404" element={<div>Page not found!</div>} />
+          <Route path="*" element={<Navigate replace to="/404" />} /> */}
         </Routes>
-        
-        
-          <div> 
-            
-            <input type="file" accept=".jpeg,.jpg,.png" onChange={((e)=> {
-
-              //.gif
-              //may want to try with a gif as well
-              uploadImage(e)
-              
-            })}/>
-
-          </div>
-          
-          <br></br>
-          
-          <div>
-              <img src={baseImage} height="200px" alt="img from user"/>
-          </div>
-        <button onClick={getQuote}>Get Quote</button>
       </div>
+
+      <Loading isLoading={isLoading} />
     </>
-    
-    
-  )
+  );
 }
 
-export default App
+export default App;

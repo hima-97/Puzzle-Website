@@ -11,27 +11,36 @@ const PuzzleSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    type: {
-        type: String,
-        required: true,
-    },
     img: {
+        //byte[]
         type: String,
         required: true,
     },
     duration: {
-        //s
+        //in ms
         type: Number,
         required: false,
     },
+    gameType: {
+        type: String,
+        required: true,
+    },
     difficulty: {
-        //will be an integer: 0,1,2 for easy, medium, hard
+        // will be an integer
         type: Number,
         required: true,
     },
     genre: {
         type: String,
     },
+    createdAt:{
+      type: Date,
+      required: true,  
+    },
+    updatedAt: {
+        type:Date,
+        required: true,
+    }
 });
 
 // Defining and compiling model under name "Puzzles":
