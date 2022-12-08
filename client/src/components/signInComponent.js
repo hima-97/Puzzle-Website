@@ -3,6 +3,7 @@ import { LoginService } from "../Services";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import Loading from "./Loading";
+import "./signInComponent.css";
 
 export default class SignInComponent extends Component {
   constructor(props) {
@@ -30,7 +31,7 @@ export default class SignInComponent extends Component {
 
   render() {
     return (
-      <div id="signup-container" className="mt-5">
+      <div id="signin-container" className="mt-5">
         {/* Using form for sign-in: */}
         <form onSubmit={this.handleSubmit.bind(this)}>
           <h3>Sign In</h3>

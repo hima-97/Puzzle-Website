@@ -2,6 +2,7 @@
 
 import SignupComponent from "../components/signupComponent";
 import StrictNavOnAuth from "../components/StrictNavOnAuth";
+import "../components/signUpComponent.css";
 
 export default function SignUpPage(props) {
   const { isLoggedIn, isAuth } = props;

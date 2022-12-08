@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import "./signUpComponent.css";
 import { LoginService } from "../Services";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import Loading from "./Loading";
+import "./signUpComponent.css";
 
 export default class SignUpComponent extends Component {
   constructor(props) {

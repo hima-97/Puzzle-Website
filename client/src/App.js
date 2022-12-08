@@ -22,7 +22,7 @@ import GameplayPage from "./pages/GameplayPage";
 import { LoginService } from "./Services";
 import Loading from "./components/Loading";
 import ListPuzzlePage from "./pages/ListPuzzlePage";
-import HistoryPage from "./pages/HIstoryPage";
+import HistoryPage from "./pages/HistoryPage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -47,7 +47,9 @@ function App() {
 
       <div className="container">
         <Routes>
-          <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} isAuth={isAuth} />} />
+          <Route
+            path="/"
+            element={<HomePage isLoggedIn={isLoggedIn} isAuth={isAuth} />} />
           <Route
             path="/sign-up"
             element={<SignUpPage isLoggedIn={isLoggedIn} isAuth={isAuth} />}
