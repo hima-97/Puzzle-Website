@@ -41,7 +41,12 @@ export default function UploadImage(props) {
   return (
     <div className="d-flex flex-column align-items-center">
       <div className="mb-5">
-        <Button variant="outlined" component="label" className="me-5">
+        <Button
+          variant="contained"
+          color="secondary"
+          component="label"
+          className="me-5"
+        >
           Upload Image
           <input
             className="d-none"
@@ -53,7 +58,8 @@ export default function UploadImage(props) {
         </Button>
 
         <Button
-          variant="outlined"
+          variant="contained"
+          color="secondary"
           onClick={onClearUploadedImage}
           disabled={!image}
         >

@@ -15,7 +15,7 @@ const steps = ["Select or Upload Image", "Set Game Up"];
 
 export default function Setup(props) {
   // setGameConfig when done all setup steps
-  const { setGameState, setGameConfig, selectedGameConfig } = props;
+  const { setGameState, setGameConfig, selectedGameConfig, isLoggedIn } = props;
 
   // Temporary config for rerendering this component
   const [tempGameConfig, setTempGameConfig] = useState(selectedGameConfig);
@@ -30,19 +30,29 @@ export default function Setup(props) {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
+    const handleStartGame = () => {
+      if (isLoggedIn) {
+        GameService.startGame(tempGameConfig)
+          .then((res) => {
+            // Assign the id to start the game
+            const temp = tempGameConfig.clone();
+            temp.puzzleId = res.data;
+            setGameConfig(temp);
+            setGameState(GameState.PLAYING);
+          })
+          .catch(() => {})
+          .finally(() => setIsLoading(false));
+      } else {
+        setGameConfig(tempGameConfig);
+        setGameState(GameState.PLAYING);
+        setIsLoading(false);
+      }
+    };
+
     if (activeStep === steps.length - 1) {
       // Start game
       setIsLoading(true);
-      GameService.startGame(tempGameConfig)
-        .then((res) => {
-          // Assign the id to start the game
-          const temp = tempGameConfig.clone();
-          temp.puzzleId = res.data;
-          setGameConfig(temp);
-          setGameState(GameState.PLAYING);
-        })
-        .catch(() => {})
-        .finally(() => setIsLoading(false));
+      handleStartGame();
       return;
     }
 
@@ -72,7 +82,7 @@ export default function Setup(props) {
       <CustomDialog dialogData={dialogData} />
 
       <Stepper activeStep={activeStep} className="mb-5">
-        {steps.map((label, _) => {
+        {steps.map((label, idx) => {
           const stepProps = {};
           const labelProps = {};
           return (
@@ -101,7 +111,8 @@ export default function Setup(props) {
 
         <div className="h-100 d-flex justify-content-between mt-5">
           <Button
-            variant="outlined"
+            variant="contained"
+            color="secondary"
             disabled={activeStep === 0}
             onClick={handleBack}
           >
@@ -109,7 +120,8 @@ export default function Setup(props) {
           </Button>
           <div sx={{ flex: "1 1 auto" }} />
           <Button
-            variant="outlined"
+            variant="contained"
+            color="secondary"
             onClick={handleNext}
             disabled={
               activeStep === steps.length - 1
