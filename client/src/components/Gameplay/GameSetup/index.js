@@ -4,7 +4,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import GameConfiguration from "./GameConfiguration";
-import { GameState } from "../Constants";
+import { DefaultImage, GameState } from "../Constants";
 import UploadImage from "./UploadImage";
 import { checkBase64Image } from "../Constants/Utility";
 import CustomDialog, { DialogData } from "../../CustomDialog";
@@ -16,6 +16,10 @@ const steps = ["Select or Upload Image", "Set Game Up"];
 export default function Setup(props) {
   // setGameConfig when done all setup steps
   const { setGameState, setGameConfig, selectedGameConfig, isLoggedIn } = props;
+  if (selectedGameConfig.image == null)
+  {
+    selectedGameConfig.image = DefaultImage;
+  }
 
   // Temporary config for rerendering this component
   const [tempGameConfig, setTempGameConfig] = useState(selectedGameConfig);
@@ -102,8 +106,9 @@ export default function Setup(props) {
           <UploadImage
             image={tempGameConfig.image}
             setImage={(image) => {
-              tempGameConfig.image = image ? image : selectedGameConfig.image;
-              setTempGameConfig(tempGameConfig);
+              const temp = tempGameConfig.clone();
+              temp.image = image ? image : (selectedGameConfig.image ? selectedGameConfig.image : DefaultImage);
+              setTempGameConfig(temp);
             }}
             setIsLoading={setIsLoading}
           />
