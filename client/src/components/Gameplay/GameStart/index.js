@@ -57,7 +57,7 @@ function RightSide(props) {
 export default function PuzzleGame(props) {
   // The component for all game container, this hold states that affecting the all components
   const { difficulty, gameType, time, image } = { ...props.gameConfig };
-  const { gameState, setGameState } = props;
+  const { gameState, setGameState, isLoggedIn } = props;
 
   // This state use for clear timer interval
   const [isExit, setIsExit] = useState(false);
@@ -76,12 +76,17 @@ export default function PuzzleGame(props) {
 
     // If end countdown, save lose result
     if (!isWin && isSave) {
-      GameService.endGame(props.gameConfig, isWinRef.current, time)
-        .then(() => {
-          // Open lose popup
-          setIsShowResultPopup(true);
-        })
-        .finally(() => setIsLoading(false));
+      if (isLoggedIn) {
+        GameService.endGame(props.gameConfig, isWinRef.current, time)
+          .then(() => {
+            // Open lose popup
+            setIsShowResultPopup(true);
+          })
+          .finally(() => setIsLoading(false));
+      } else {
+        setIsShowResultPopup(true);
+        setIsLoading(false);
+      }
     }
   };
 
@@ -94,12 +99,17 @@ export default function PuzzleGame(props) {
 
     // Save history
     setIsLoading(true);
-    GameService.endGame(props.gameConfig, isWinRef.current, time)
-      .then(() => {
-        // Open win popup
-        setIsShowResultPopup(true);
-      })
-      .finally(() => setIsLoading(false));
+    if (isLoggedIn) {
+      GameService.endGame(props.gameConfig, isWinRef.current, time)
+        .then(() => {
+          // Open win popup
+          setIsShowResultPopup(true);
+        })
+        .finally(() => setIsLoading(false));
+    } else {
+      setIsShowResultPopup(true);
+      setIsLoading(false);
+    }
   };
 
   // Wait for next render to stop timer

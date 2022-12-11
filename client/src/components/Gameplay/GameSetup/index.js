@@ -4,7 +4,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import GameConfiguration from "./GameConfiguration";
-import { GameState } from "../Constants";
+import { DefaultImage, GameState } from "../Constants";
 import UploadImage from "./UploadImage";
 import { checkBase64Image } from "../Constants/Utility";
 import CustomDialog, { DialogData } from "../../CustomDialog";
@@ -15,7 +15,11 @@ const steps = ["Select or Upload Image", "Set Game Up"];
 
 export default function Setup(props) {
   // setGameConfig when done all setup steps
-  const { setGameState, setGameConfig, selectedGameConfig } = props;
+  const { setGameState, setGameConfig, selectedGameConfig, isLoggedIn } = props;
+  if (selectedGameConfig.image == null)
+  {
+    selectedGameConfig.image = DefaultImage;
+  }
 
   // Temporary config for rerendering this component
   const [tempGameConfig, setTempGameConfig] = useState(selectedGameConfig);
@@ -30,19 +34,29 @@ export default function Setup(props) {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
+    const handleStartGame = () => {
+      if (isLoggedIn) {
+        GameService.startGame(tempGameConfig)
+          .then((res) => {
+            // Assign the id to start the game
+            const temp = tempGameConfig.clone();
+            temp.puzzleId = res.data;
+            setGameConfig(temp);
+            setGameState(GameState.PLAYING);
+          })
+          .catch(() => {})
+          .finally(() => setIsLoading(false));
+      } else {
+        setGameConfig(tempGameConfig);
+        setGameState(GameState.PLAYING);
+        setIsLoading(false);
+      }
+    };
+
     if (activeStep === steps.length - 1) {
       // Start game
       setIsLoading(true);
-      GameService.startGame(tempGameConfig)
-        .then((res) => {
-          // Assign the id to start the game
-          const temp = tempGameConfig.clone();
-          temp.puzzleId = res.data;
-          setGameConfig(temp);
-          setGameState(GameState.PLAYING);
-        })
-        .catch(() => {})
-        .finally(() => setIsLoading(false));
+      handleStartGame();
       return;
     }
 
@@ -72,7 +86,7 @@ export default function Setup(props) {
       <CustomDialog dialogData={dialogData} />
 
       <Stepper activeStep={activeStep} className="mb-5">
-        {steps.map((label, _) => {
+        {steps.map((label, idx) => {
           const stepProps = {};
           const labelProps = {};
           return (
@@ -92,8 +106,9 @@ export default function Setup(props) {
           <UploadImage
             image={tempGameConfig.image}
             setImage={(image) => {
-              tempGameConfig.image = image ? image : selectedGameConfig.image;
-              setTempGameConfig(tempGameConfig);
+              const temp = tempGameConfig.clone();
+              temp.image = image ? image : (selectedGameConfig.image ? selectedGameConfig.image : DefaultImage);
+              setTempGameConfig(temp);
             }}
             setIsLoading={setIsLoading}
           />
@@ -101,7 +116,8 @@ export default function Setup(props) {
 
         <div className="h-100 d-flex justify-content-between mt-5">
           <Button
-            variant="outlined"
+            variant="contained"
+            color="secondary"
             disabled={activeStep === 0}
             onClick={handleBack}
           >
@@ -109,7 +125,8 @@ export default function Setup(props) {
           </Button>
           <div sx={{ flex: "1 1 auto" }} />
           <Button
-            variant="outlined"
+            variant="contained"
+            color="secondary"
             onClick={handleNext}
             disabled={
               activeStep === steps.length - 1

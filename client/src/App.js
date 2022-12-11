@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 // The "react-router-dom" is used to make it easier to route different URLs to different React components:
 // With this, you will be able to have a router element for each route of the application
 // You need to put everything you want to be used with the router inside the router element
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 // Importing bootstrap:
 import "bootstrap/dist/css/bootstrap.min.css";
